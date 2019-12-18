@@ -27,5 +27,7 @@ public class UserRegisterValidator implements Validator {
             errors.rejectValue("password", "validation.user.create.passwordMismatch");
         }
 
+        //TODO add unique user validation
+
     }
 }

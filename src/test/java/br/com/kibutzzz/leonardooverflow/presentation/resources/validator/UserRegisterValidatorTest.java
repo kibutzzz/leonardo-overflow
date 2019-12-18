@@ -3,7 +3,6 @@ package br.com.kibutzzz.leonardooverflow.presentation.resources.validator;
 import br.com.kibutzzz.leonardooverflow.CreateUserRequestStubber;
 import br.com.kibutzzz.leonardooverflow.presentation.resources.request.CreateUserRequest;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

@@ -22,7 +22,7 @@ public class UserController {
 
     @InitBinder("createUserRequest")
     public void setUserRegisteringValidator(DataBinder binder) {
-        binder.setValidator(registerValidator);
+        binder.addValidators(registerValidator);
     }
 
     @PostMapping

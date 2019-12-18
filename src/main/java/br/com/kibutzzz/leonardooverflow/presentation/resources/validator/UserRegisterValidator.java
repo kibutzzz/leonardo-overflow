@@ -5,6 +5,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+import static java.util.Objects.isNull;
+
 @Component
 public class UserRegisterValidator implements Validator {
 
@@ -17,7 +19,10 @@ public class UserRegisterValidator implements Validator {
     public void validate(Object target, Errors errors) {
         CreateUserRequest request = (CreateUserRequest) target;
 
-        //FIXME NullPointerException
+        if(errors.hasErrors()) {
+            return;
+        }
+
         if (!request.getPassword().equals(request.getPasswordConfirmation())) {
             errors.rejectValue("password", "validation.user.create.passwordMismatch");
         }

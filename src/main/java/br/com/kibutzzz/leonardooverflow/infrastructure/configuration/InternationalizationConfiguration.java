@@ -1,4 +1,4 @@
-package br.com.kibutzzz.leonardooverflow.infrastructure.persistence.configuration;
+package br.com.kibutzzz.leonardooverflow.infrastructure.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

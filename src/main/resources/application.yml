@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: LeonardoOverflow
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:mysql://localhost:3306/leonardo_overflow
+    username: 'root'
+    password: 'toor'
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+

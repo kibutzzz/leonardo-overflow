@@ -1,7 +1,13 @@
 package br.com.kibutzzz.leonardooverflow.infrastructure.persistence.model;
 
-import javax.persistence.Entity;
+import org.springframework.security.core.GrantedAuthority;
 
-public enum Role {
-    ADMIN, USER
+
+public enum Role implements GrantedAuthority {
+    ADMIN, USER;
+
+    @Override
+    public String getAuthority() {
+        return "ROLE_" + this.toString();
+    }
 }

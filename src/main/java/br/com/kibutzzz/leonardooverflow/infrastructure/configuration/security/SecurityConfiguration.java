@@ -47,7 +47,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 //other requests must be authenticated
                 .anyRequest().authenticated()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        .and().addFilterBefore(new TokenAuthenticationFilter(tokenService, userService), UsernamePasswordAuthenticationFilter.class);
+                .and().addFilterBefore(new TokenAuthenticationFilter(tokenService, userService),
+                UsernamePasswordAuthenticationFilter.class);
 
     }
 

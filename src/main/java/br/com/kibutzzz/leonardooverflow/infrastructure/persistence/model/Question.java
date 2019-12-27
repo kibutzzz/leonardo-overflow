@@ -24,4 +24,7 @@ public class Question {
     @OneToMany
     private List<Answer> answers = new ArrayList<>();
 
+    @OneToMany
+    private List<Comment> comments = new ArrayList<>();
+
 }

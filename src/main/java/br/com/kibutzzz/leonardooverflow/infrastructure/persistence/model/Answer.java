@@ -19,4 +19,7 @@ public class Answer {
     @OneToMany
     private List<Comment> comments = new ArrayList<>();
 
+    @OneToMany
+    private List<Vote> votes = new ArrayList<>();
+
 }

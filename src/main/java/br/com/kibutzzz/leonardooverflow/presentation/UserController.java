@@ -38,4 +38,13 @@ public class UserController {
         return UserMapper.INSTANCE.toResponse(userService.listUsers());
     }
 
+    @GetMapping("/validate/{username}")
+    public ResponseEntity<Void> validateUsername(@PathVariable String username) {
+        if(userService.isUserNameTaken(username)) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        return ResponseEntity.ok().build();
+    }
+
 }

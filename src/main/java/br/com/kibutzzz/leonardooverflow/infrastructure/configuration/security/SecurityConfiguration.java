@@ -44,6 +44,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/question").permitAll()
                 .antMatchers(HttpMethod.GET, "/question/search/*").permitAll()
                 .antMatchers(HttpMethod.POST, "/user").permitAll()
+                .antMatchers(HttpMethod.GET, "/user/validate/*").permitAll()
 
                 //other requests must be authenticated
                 .anyRequest().authenticated()
@@ -61,7 +62,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     //static resources configuration
     @Override
-    public void configure(WebSecurity web) throws Exception {
+    public void configure(WebSecurity web) {
 
     }
 

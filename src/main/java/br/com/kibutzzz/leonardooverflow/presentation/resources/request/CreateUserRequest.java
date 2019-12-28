@@ -13,9 +13,8 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreateUserRequest {
-
     @NotBlank
-    @Size(min = 3)
+    @Size(min = 3, max = 32)
     private String username;
 
     @NotBlank

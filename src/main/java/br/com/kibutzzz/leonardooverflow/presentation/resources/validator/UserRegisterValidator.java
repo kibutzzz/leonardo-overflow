@@ -1,14 +1,19 @@
 package br.com.kibutzzz.leonardooverflow.presentation.resources.validator;
 
+import br.com.kibutzzz.leonardooverflow.application.UserService;
+import br.com.kibutzzz.leonardooverflow.infrastructure.persistence.UserRepository;
 import br.com.kibutzzz.leonardooverflow.presentation.resources.request.CreateUserRequest;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import static java.util.Objects.isNull;
 
 @Component
+@RequiredArgsConstructor
 public class UserRegisterValidator implements Validator {
+
+    private final UserService userService;
 
     @Override
     public boolean supports(Class<?> clazz) {
@@ -27,7 +32,9 @@ public class UserRegisterValidator implements Validator {
             errors.rejectValue("password", "validation.user.create.passwordMismatch");
         }
 
-        //TODO add unique user validation
+        if(userService.isUserNameTaken(request.getUsername())) {
+            errors.rejectValue("username", "validation.user.create.usernameTaken");
+        }
 
     }
 }

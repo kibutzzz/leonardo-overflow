@@ -5,6 +5,7 @@ import br.com.kibutzzz.leonardooverflow.infrastructure.persistence.QuestionRepos
 import br.com.kibutzzz.leonardooverflow.infrastructure.persistence.model.Question;
 import br.com.kibutzzz.leonardooverflow.presentation.resources.mapper.QuestionMapper;
 import br.com.kibutzzz.leonardooverflow.presentation.resources.request.CreateQuestionRequest;
+import br.com.kibutzzz.leonardooverflow.presentation.resources.request.UpdateQuestionRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -35,5 +36,15 @@ public class QuestionService {
 
     public List<Question> searchQuestionsByExpression(String expression) {
         return questionRepository.findByTitleContainingIgnoreCase(expression);
+    }
+
+    public Question updateQuestion(UpdateQuestionRequest questionRequest, Long questionId) {
+        Question question = questionRepository.findById(questionId).orElseThrow(
+                () -> new ApiException(HttpStatus.NOT_FOUND, "Question not found"));
+
+        question.setTitle(questionRequest.getTitle());
+        question.setDescription(questionRequest.getDescription());
+
+        return questionRepository.save(question);
     }
 }

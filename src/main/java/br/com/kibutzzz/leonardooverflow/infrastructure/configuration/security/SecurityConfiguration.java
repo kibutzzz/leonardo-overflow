@@ -42,6 +42,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 //public endpoints
                 .antMatchers(HttpMethod.POST, "/auth").permitAll()
                 .antMatchers(HttpMethod.GET, "/question").permitAll()
+                .antMatchers(HttpMethod.GET, "/question/search/*").permitAll()
                 .antMatchers(HttpMethod.POST, "/user").permitAll()
 
                 //other requests must be authenticated

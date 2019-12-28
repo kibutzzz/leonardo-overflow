@@ -33,4 +33,9 @@ public class QuestionController {
     public QuestionResponse createQuestion(@Valid @RequestBody CreateQuestionRequest questionRequest) {
         return QuestionMapper.INSTANCE.toResponse(questionService.createQuestion(questionRequest));
     }
+
+    @GetMapping("/search/{expression}")
+    public List<Question> searchQuestionsByExpression(@PathVariable String expression) {
+        return questionService.searchQuestionsByExpression(expression);
+    }
 }

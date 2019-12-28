@@ -32,4 +32,8 @@ public class QuestionService {
         return questionRepository.findById(id).orElseThrow(
                 () -> new ApiException(HttpStatus.NOT_FOUND, "question not found"));
     }
+
+    public List<Question> searchQuestionsByExpression(String expression) {
+        return questionRepository.findByTitleContainingIgnoreCase(expression);
+    }
 }

@@ -18,6 +18,9 @@ public class Question {
 
     private String description;
 
+    @ManyToOne
+    private User user;
+
     @OneToMany
     private List<Vote> votes = new ArrayList<>();
 

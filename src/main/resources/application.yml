@@ -4,13 +4,16 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
   datasource:
     url: jdbc:mysql://localhost:3306/leonardo_overflow
     username: 'root'
     password: 'toor'
     driver-class-name: com.mysql.cj.jdbc.Driver
-
 
 #jwt
 jwt:

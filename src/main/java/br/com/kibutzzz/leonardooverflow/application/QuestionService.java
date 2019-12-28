@@ -3,11 +3,13 @@ package br.com.kibutzzz.leonardooverflow.application;
 import br.com.kibutzzz.leonardooverflow.infrastructure.ApiException;
 import br.com.kibutzzz.leonardooverflow.infrastructure.persistence.QuestionRepository;
 import br.com.kibutzzz.leonardooverflow.infrastructure.persistence.model.Question;
+import br.com.kibutzzz.leonardooverflow.infrastructure.persistence.model.User;
 import br.com.kibutzzz.leonardooverflow.presentation.resources.mapper.QuestionMapper;
 import br.com.kibutzzz.leonardooverflow.presentation.resources.request.CreateQuestionRequest;
 import br.com.kibutzzz.leonardooverflow.presentation.resources.request.UpdateQuestionRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -24,8 +26,9 @@ public class QuestionService {
     }
 
     @Transactional
-    public Question createQuestion(CreateQuestionRequest questionRequest) {
+    public Question createQuestion(CreateQuestionRequest questionRequest, User user) {
         Question question = QuestionMapper.INSTANCE.fromRequest(questionRequest);
+        question.setUser(user);
         return questionRepository.save(question);
     }
 
@@ -38,9 +41,13 @@ public class QuestionService {
         return questionRepository.findByTitleContainingIgnoreCase(expression);
     }
 
-    public Question updateQuestion(UpdateQuestionRequest questionRequest, Long questionId) {
+    public Question updateQuestion(UpdateQuestionRequest questionRequest, Long questionId, User user) {
         Question question = questionRepository.findById(questionId).orElseThrow(
                 () -> new ApiException(HttpStatus.NOT_FOUND, "Question not found"));
+
+        if(!user.equals(question.getUser())) {
+            throw new AccessDeniedException("Only the question owner can update the question");
+        }
 
         question.setTitle(questionRequest.getTitle());
         question.setDescription(questionRequest.getDescription());

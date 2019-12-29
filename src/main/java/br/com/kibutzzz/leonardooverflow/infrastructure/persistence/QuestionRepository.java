@@ -9,4 +9,5 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
 
     List<Question> findByTitleContainingIgnoreCase(String title);
 
+    List<Question> findByUserId(Long id);
 }

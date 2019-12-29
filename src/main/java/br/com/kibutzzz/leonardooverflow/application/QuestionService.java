@@ -21,6 +21,8 @@ public class QuestionService {
 
     private final QuestionRepository questionRepository;
 
+    private final UserService userService;
+
     public List<Question> listQuestions() {
         return questionRepository.findAll();
     }
@@ -53,5 +55,13 @@ public class QuestionService {
         question.setDescription(questionRequest.getDescription());
 
         return questionRepository.save(question);
+    }
+
+    public List<Question> listQuestionsByUserId(Long id) {
+        if(!userService.userExistsById(id)) {
+            throw new ApiException(HttpStatus.NOT_FOUND, "User not found");
+        }
+
+        return questionRepository.findByUserId(id);
     }
 }

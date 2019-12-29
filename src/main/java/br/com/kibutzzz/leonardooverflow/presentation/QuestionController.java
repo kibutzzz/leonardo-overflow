@@ -1,12 +1,12 @@
 package br.com.kibutzzz.leonardooverflow.presentation;
 
 import br.com.kibutzzz.leonardooverflow.application.QuestionService;
-import br.com.kibutzzz.leonardooverflow.infrastructure.persistence.model.Question;
 import br.com.kibutzzz.leonardooverflow.infrastructure.persistence.model.User;
 import br.com.kibutzzz.leonardooverflow.presentation.resources.mapper.QuestionMapper;
 import br.com.kibutzzz.leonardooverflow.presentation.resources.request.CreateQuestionRequest;
 import br.com.kibutzzz.leonardooverflow.presentation.resources.request.UpdateQuestionRequest;
 import br.com.kibutzzz.leonardooverflow.presentation.resources.response.QuestionResponse;
+import br.com.kibutzzz.leonardooverflow.presentation.resources.response.SimplifiedQuestionResponse;
 import br.com.kibutzzz.leonardooverflow.presentation.resources.response.SpecificQuestionResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -23,13 +23,19 @@ public class QuestionController {
     private final QuestionService questionService;
 
     @GetMapping
-    public List<Question> listQuestions() {
-        return questionService.listQuestions();
+    public List<SimplifiedQuestionResponse> listQuestions() {
+
+        return QuestionMapper.INSTANCE.toSimplifiedQuestionResponse(questionService.listQuestions());
     }
 
     @GetMapping("/{id}")
     public SpecificQuestionResponse getQuestionById(@PathVariable Long id) {
         return QuestionMapper.INSTANCE.toSpecificQuestionResponse(questionService.getQuestionById(id));
+    }
+
+    @GetMapping("/user/{id}")
+    public List<SimplifiedQuestionResponse> getByUserId(@PathVariable Long id) {
+        return QuestionMapper.INSTANCE.toSimplifiedQuestionResponse(questionService.listQuestionsByUserId(id));
     }
 
     @PostMapping
@@ -39,8 +45,10 @@ public class QuestionController {
     }
 
     @GetMapping("/search/{expression}")
-    public List<Question> searchQuestionsByExpression(@PathVariable String expression) {
-        return questionService.searchQuestionsByExpression(expression);
+    public List<SimplifiedQuestionResponse> searchQuestionsByExpression(@PathVariable String expression) {
+
+        return QuestionMapper.INSTANCE.toSimplifiedQuestionResponse(
+                questionService.searchQuestionsByExpression(expression));
     }
 
     @PatchMapping("/{questionId}")

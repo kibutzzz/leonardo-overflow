@@ -47,4 +47,8 @@ public class UserService {
     public boolean isUserNameTaken(String username) {
         return userRepository.existsByUsername(username);
     }
+
+    public boolean userExistsById(Long id) {
+        return userRepository.existsById(id);
+    }
 }

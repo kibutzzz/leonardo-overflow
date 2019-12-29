@@ -16,6 +16,7 @@ public class Question {
 
     private String title;
 
+    @Column(length = 512)
     private String description;
 
     @ManyToOne
@@ -29,5 +30,8 @@ public class Question {
 
     @OneToMany
     private List<Comment> comments = new ArrayList<>();
+
+    @OneToMany
+    private List<Tag> tags = new ArrayList<>();
 
 }

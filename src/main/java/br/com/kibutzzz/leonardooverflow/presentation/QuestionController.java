@@ -8,8 +8,10 @@ import br.com.kibutzzz.leonardooverflow.presentation.resources.request.UpdateQue
 import br.com.kibutzzz.leonardooverflow.presentation.resources.response.QuestionResponse;
 import br.com.kibutzzz.leonardooverflow.presentation.resources.response.SimplifiedQuestionResponse;
 import br.com.kibutzzz.leonardooverflow.presentation.resources.response.SpecificQuestionResponse;
+import br.com.kibutzzz.leonardooverflow.presentation.resources.validator.CreateQuestionValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -21,6 +23,13 @@ import java.util.List;
 public class QuestionController {
 
     private final QuestionService questionService;
+
+    private final CreateQuestionValidator createQuestionValidator;
+
+    @InitBinder("createQuestionRequest")
+    public void setCreateQuestionValidator(WebDataBinder binder) {
+        binder.addValidators(createQuestionValidator);
+    }
 
     @GetMapping
     public List<SimplifiedQuestionResponse> listQuestions() {

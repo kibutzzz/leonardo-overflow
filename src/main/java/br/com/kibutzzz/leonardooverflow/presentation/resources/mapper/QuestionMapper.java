@@ -16,6 +16,7 @@ public interface QuestionMapper {
 
     QuestionMapper INSTANCE = Mappers.getMapper(QuestionMapper.class);
 
+    @Mapping(target = "tags", ignore = true)
     @Mapping(target = "user", ignore = true)
     @Mapping(target = "comments", ignore = true)
     @Mapping(target = "votes", ignore = true)

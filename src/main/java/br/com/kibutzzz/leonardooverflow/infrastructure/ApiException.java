@@ -2,10 +2,12 @@ package br.com.kibutzzz.leonardooverflow.infrastructure;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-@Data()
+@Data
+@EqualsAndHashCode(callSuper = false)
 @AllArgsConstructor
 public class ApiException extends RuntimeException {
 

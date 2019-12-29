@@ -1,5 +1,6 @@
 package br.com.kibutzzz.leonardooverflow.presentation.resources.response;
 
+import br.com.kibutzzz.leonardooverflow.infrastructure.persistence.model.Tag;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,6 +23,8 @@ public class SpecificQuestionResponse {
     private List<AnswerResponse> answers;
 
     private List<CommentResponse> comments;
+
+    private List<Tag> tags;
 
     private Long voteCount;
 

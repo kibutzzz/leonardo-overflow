@@ -23,6 +23,8 @@ public class QuestionService {
 
     private final UserService userService;
 
+    private final TagService tagService;
+
     public List<Question> listQuestions() {
         return questionRepository.findAll();
     }
@@ -31,6 +33,8 @@ public class QuestionService {
     public Question createQuestion(CreateQuestionRequest questionRequest, User user) {
         Question question = QuestionMapper.INSTANCE.fromRequest(questionRequest);
         question.setUser(user);
+
+        question.setTags(tagService.findAllTagsByIds(questionRequest.getTagsIds()));
         return questionRepository.save(question);
     }
 
@@ -47,7 +51,7 @@ public class QuestionService {
         Question question = questionRepository.findById(questionId).orElseThrow(
                 () -> new ApiException(HttpStatus.NOT_FOUND, "Question not found"));
 
-        if(!user.equals(question.getUser())) {
+        if (!user.equals(question.getUser())) {
             throw new AccessDeniedException("Only the question owner can update the question");
         }
 
@@ -58,7 +62,7 @@ public class QuestionService {
     }
 
     public List<Question> listQuestionsByUserId(Long id) {
-        if(!userService.userExistsById(id)) {
+        if (!userService.userExistsById(id)) {
             throw new ApiException(HttpStatus.NOT_FOUND, "User not found");
         }
 

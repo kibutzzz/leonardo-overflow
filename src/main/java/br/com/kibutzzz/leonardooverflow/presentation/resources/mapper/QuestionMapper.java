@@ -13,7 +13,7 @@ import java.util.List;
 
 @Mapper(
         config = BaseMapperConfig.class,
-        uses = {VoteMapper.class, CommentMapper.class, AnswerMapper.class, UserMapper.class}
+        uses = {VoteMapper.class, CommentMapper.class, AnswerMapper.class, UserMapper.class, TagMapper.class}
 )
 public interface QuestionMapper {
 

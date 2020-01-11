@@ -18,5 +18,5 @@ public class SimplifiedQuestionResponse {
 
     private SimplifiedUserResponse user;
 
-    private List<Tag> tags;
+    private List<TagResponse> tags;
 }

@@ -2,7 +2,9 @@ package br.com.kibutzzz.leonardooverflow.presentation;
 
 import br.com.kibutzzz.leonardooverflow.application.TagService;
 import br.com.kibutzzz.leonardooverflow.infrastructure.persistence.model.Tag;
+import br.com.kibutzzz.leonardooverflow.presentation.resources.mapper.TagMapper;
 import br.com.kibutzzz.leonardooverflow.presentation.resources.request.CreateTagRequest;
+import br.com.kibutzzz.leonardooverflow.presentation.resources.response.TagResponse;
 import br.com.kibutzzz.leonardooverflow.presentation.resources.validator.CreateTagValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.WebDataBinder;
@@ -18,6 +20,8 @@ public class TagController {
 
     private final TagService tagService;
 
+    private final TagMapper tagMapper;
+
     private final CreateTagValidator createTagValidator;
 
     @InitBinder("createTagRequest")
@@ -26,14 +30,14 @@ public class TagController {
     }
 
     @PostMapping
-    public Tag createTag(@Valid @RequestBody CreateTagRequest request) {
+    public TagResponse createTag(@Valid @RequestBody CreateTagRequest request) {
 
-        return tagService.createTag(request);
+        return tagMapper.toResponse(tagService.createTag(request));
     }
 
     @GetMapping
-    public List<Tag> listAllTags() {
-        return tagService.findAllTagsByIds();
+    public List<TagResponse> listAllTags() {
+        return tagMapper.toResponse(tagService.findAllTagsByIds());
     }
 
 }

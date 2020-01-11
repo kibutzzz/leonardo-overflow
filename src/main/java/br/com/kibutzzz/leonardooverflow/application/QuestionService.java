@@ -25,13 +25,15 @@ public class QuestionService {
 
     private final TagService tagService;
 
+    private final QuestionMapper questionMapper;
+
     public List<Question> listQuestions() {
         return questionRepository.findAll();
     }
 
     @Transactional
     public Question createQuestion(CreateQuestionRequest questionRequest, User user) {
-        Question question = QuestionMapper.INSTANCE.fromRequest(questionRequest);
+        Question question = questionMapper.fromRequest(questionRequest);
         question.setUser(user);
 
         question.setTags(tagService.findAllTagsByIds(questionRequest.getTagsIds()));

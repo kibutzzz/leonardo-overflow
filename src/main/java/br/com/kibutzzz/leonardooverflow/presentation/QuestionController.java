@@ -26,6 +26,8 @@ public class QuestionController {
 
     private final CreateQuestionValidator createQuestionValidator;
 
+    private final QuestionMapper questionMapper;
+
     @InitBinder("createQuestionRequest")
     public void setCreateQuestionValidator(WebDataBinder binder) {
         binder.addValidators(createQuestionValidator);
@@ -34,35 +36,34 @@ public class QuestionController {
     @GetMapping
     public List<SimplifiedQuestionResponse> listQuestions() {
 
-        return QuestionMapper.INSTANCE.toSimplifiedQuestionResponse(questionService.listQuestions());
+        return questionMapper.toSimplifiedQuestionResponse(questionService.listQuestions());
     }
 
     @GetMapping("/{id}")
     public SpecificQuestionResponse getQuestionById(@PathVariable Long id) {
-        return QuestionMapper.INSTANCE.toSpecificQuestionResponse(questionService.getQuestionById(id));
+        return questionMapper.toSpecificQuestionResponse(questionService.getQuestionById(id));
     }
 
     @GetMapping("/user/{id}")
     public List<SimplifiedQuestionResponse> getByUserId(@PathVariable Long id) {
-        return QuestionMapper.INSTANCE.toSimplifiedQuestionResponse(questionService.listQuestionsByUserId(id));
+        return questionMapper.toSimplifiedQuestionResponse(questionService.listQuestionsByUserId(id));
     }
 
     @PostMapping
     public QuestionResponse createQuestion(@Valid @RequestBody CreateQuestionRequest questionRequest,
                                            @AuthenticationPrincipal User user) {
-        return QuestionMapper.INSTANCE.toResponse(questionService.createQuestion(questionRequest, user));
+        return questionMapper.toResponse(questionService.createQuestion(questionRequest, user));
     }
 
     @GetMapping("/search/{expression}")
     public List<SimplifiedQuestionResponse> searchQuestionsByExpression(@PathVariable String expression) {
 
-        return QuestionMapper.INSTANCE.toSimplifiedQuestionResponse(
-                questionService.searchQuestionsByExpression(expression));
+        return questionMapper.toSimplifiedQuestionResponse(questionService.searchQuestionsByExpression(expression));
     }
 
     @PatchMapping("/{questionId}")
     public QuestionResponse updateQuestion(@Valid @RequestBody UpdateQuestionRequest questionRequest,
                                            @PathVariable Long questionId, @AuthenticationPrincipal User user) {
-        return QuestionMapper.INSTANCE.toResponse(questionService.updateQuestion(questionRequest, questionId, user));
+        return questionMapper.toResponse(questionService.updateQuestion(questionRequest, questionId, user));
     }
 }

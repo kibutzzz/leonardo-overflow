@@ -16,9 +16,11 @@ public class TagService {
 
     private final TagRepository tagRepository;
 
+    private final TagMapper tagMapper;
+
     public Tag createTag(@Valid CreateTagRequest tagRequest) {
 
-        return tagRepository.save(TagMapper.INSTANCE.fromRequest(tagRequest));
+        return tagRepository.save(tagMapper.fromRequest(tagRequest));
     }
 
     public List<Tag> findAllTagsByIds() {

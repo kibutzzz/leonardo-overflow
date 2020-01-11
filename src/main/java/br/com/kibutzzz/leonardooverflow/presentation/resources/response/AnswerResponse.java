@@ -15,7 +15,7 @@ public class AnswerResponse {
 
     private Long id;
 
-    private String text;
+    private String description;
 
     private Integer voteCount;
 

@@ -22,6 +22,8 @@ public class UserController {
 
     private final UserRegisterValidator registerValidator;
 
+    final UserMapper userMapper;
+
     @InitBinder("createUserRequest")
     public void setUserRegisteringValidator(DataBinder binder) {
         binder.addValidators(registerValidator);
@@ -29,13 +31,13 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<Void> registerUser(@Valid @RequestBody CreateUserRequest request) {
-        userService.registerUser(UserMapper.INSTANCE.fromRequest(request));
+        userService.registerUser(userMapper.fromRequest(request));
         return ResponseEntity.ok().build();
     }
 
     @GetMapping
     public List<SimplifiedUserResponse> listUsers() {
-        return UserMapper.INSTANCE.toResponse(userService.listUsers());
+        return userMapper.toResponse(userService.listUsers());
     }
 
     @GetMapping("/validate/{username}")

@@ -10,7 +10,7 @@ spring:
       hibernate:
         format_sql: true
   datasource:
-    url: jdbc:mysql://localhost:3306/leonardo_overflow
+    url: jdbc:mysql://localhost:3306/leonardo_overflow?serverTimezone=UTC&useLegacyDatetimeCode=false
     username: 'root'
     password: 'toor'
     driver-class-name: com.mysql.cj.jdbc.Driver

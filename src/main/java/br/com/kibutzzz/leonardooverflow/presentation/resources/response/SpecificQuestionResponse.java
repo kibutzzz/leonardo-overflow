@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -24,8 +25,12 @@ public class SpecificQuestionResponse {
 
     private List<CommentResponse> comments;
 
-    private List<Tag> tags;
+    private List<SimplifiedTagResponse> tags;
 
     private Long voteCount;
+
+    private LocalDateTime creationDate;
+
+    private LocalDateTime updateDate;
 
 }

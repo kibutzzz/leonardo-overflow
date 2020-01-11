@@ -13,6 +13,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -37,6 +38,8 @@ public class QuestionService {
         question.setUser(user);
 
         question.setTags(tagService.findAllTagsByIds(questionRequest.getTagsIds()));
+        question.setCreationDate(LocalDateTime.now());
+
         return questionRepository.save(question);
     }
 
@@ -59,6 +62,8 @@ public class QuestionService {
 
         question.setTitle(questionRequest.getTitle());
         question.setDescription(questionRequest.getDescription());
+
+        question.setUpdateDate(LocalDateTime.now());
 
         return questionRepository.save(question);
     }

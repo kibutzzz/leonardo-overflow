@@ -3,6 +3,7 @@ package br.com.kibutzzz.leonardooverflow.infrastructure.persistence.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,5 +34,9 @@ public class Question {
 
     @OneToMany
     private List<Tag> tags = new ArrayList<>();
+
+    private LocalDateTime creationDate;
+
+    private LocalDateTime updateDate;
 
 }

@@ -40,4 +40,8 @@ public class TagService {
     public boolean tagExists(Long id) {
         return tagRepository.existsById(id);
     }
+
+    public List<Tag> findTagsByName(String name) {
+        return tagRepository.findByNameContainingIgnoreCase(name);
+    }
 }

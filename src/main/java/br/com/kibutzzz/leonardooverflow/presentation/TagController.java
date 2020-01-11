@@ -1,9 +1,9 @@
 package br.com.kibutzzz.leonardooverflow.presentation;
 
 import br.com.kibutzzz.leonardooverflow.application.TagService;
-import br.com.kibutzzz.leonardooverflow.infrastructure.persistence.model.Tag;
 import br.com.kibutzzz.leonardooverflow.presentation.resources.mapper.TagMapper;
 import br.com.kibutzzz.leonardooverflow.presentation.resources.request.CreateTagRequest;
+import br.com.kibutzzz.leonardooverflow.presentation.resources.response.SimplifiedTagResponse;
 import br.com.kibutzzz.leonardooverflow.presentation.resources.response.TagResponse;
 import br.com.kibutzzz.leonardooverflow.presentation.resources.validator.CreateTagValidator;
 import lombok.RequiredArgsConstructor;
@@ -38,6 +38,11 @@ public class TagController {
     @GetMapping
     public List<TagResponse> listAllTags() {
         return tagMapper.toResponse(tagService.findAllTagsByIds());
+    }
+
+    @GetMapping("/{name}")
+    public List<SimplifiedTagResponse> searchByName(@PathVariable String name) {
+        return tagMapper.toSimplifiedResponse(tagService.findTagsByName(name));
     }
 
 }

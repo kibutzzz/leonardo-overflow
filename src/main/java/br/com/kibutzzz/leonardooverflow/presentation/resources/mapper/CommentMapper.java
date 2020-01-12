@@ -2,6 +2,7 @@ package br.com.kibutzzz.leonardooverflow.presentation.resources.mapper;
 
 import br.com.kibutzzz.leonardooverflow.infrastructure.persistence.model.Comment;
 import br.com.kibutzzz.leonardooverflow.presentation.resources.mapper.config.BaseMapperConfig;
+import br.com.kibutzzz.leonardooverflow.presentation.resources.request.CreateCommentRequest;
 import br.com.kibutzzz.leonardooverflow.presentation.resources.response.CommentResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -16,4 +17,8 @@ public interface CommentMapper {
 
     List<CommentResponse> toResponse(List<Comment> comments);
 
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "user", ignore = true)
+    @Mapping(target = "votes", ignore = true)
+    Comment fromRequest(CreateCommentRequest commentRequest);
 }

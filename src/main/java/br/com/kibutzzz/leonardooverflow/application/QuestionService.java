@@ -2,6 +2,7 @@ package br.com.kibutzzz.leonardooverflow.application;
 
 import br.com.kibutzzz.leonardooverflow.infrastructure.ApiException;
 import br.com.kibutzzz.leonardooverflow.infrastructure.persistence.QuestionRepository;
+import br.com.kibutzzz.leonardooverflow.infrastructure.persistence.model.Comment;
 import br.com.kibutzzz.leonardooverflow.infrastructure.persistence.model.Question;
 import br.com.kibutzzz.leonardooverflow.infrastructure.persistence.model.User;
 import br.com.kibutzzz.leonardooverflow.presentation.resources.mapper.QuestionMapper;
@@ -11,8 +12,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -53,6 +55,7 @@ public class QuestionService {
     }
 
     public Question updateQuestion(UpdateQuestionRequest questionRequest, Long questionId, User user) {
+        //TODO replace with this.getQuestionById
         Question question = questionRepository.findById(questionId).orElseThrow(
                 () -> new ApiException(HttpStatus.NOT_FOUND, "Question not found"));
 
@@ -74,5 +77,14 @@ public class QuestionService {
         }
 
         return questionRepository.findByUserId(id);
+    }
+
+    @Transactional(propagation = Propagation.MANDATORY)
+    public void addComment(Long questionId, Comment savedComment) {
+        Question question = getQuestionById(questionId);
+
+        question.getComments().add(savedComment);
+
+        questionRepository.save(question);
     }
 }

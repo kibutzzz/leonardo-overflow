@@ -17,4 +17,5 @@ public class CommentResponse {
 
     private Integer voteCount;
 
+    private SimplifiedUserResponse user;
 }

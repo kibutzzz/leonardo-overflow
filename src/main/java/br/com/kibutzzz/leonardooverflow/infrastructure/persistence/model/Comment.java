@@ -6,6 +6,8 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+//TODO consider the possibility of creating abstract class that both Question and Answer inherit from
+// so comment methods can avoid duplicates, as they are basically the same for those to classes
 @Entity
 @Data
 public class Comment {
@@ -15,6 +17,9 @@ public class Comment {
     private Long id;
 
     private String text;
+
+    @ManyToOne
+    private User user;
 
     @OneToMany
     private List<Vote> votes = new ArrayList<>();

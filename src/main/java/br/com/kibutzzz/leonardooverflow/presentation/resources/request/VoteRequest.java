@@ -20,6 +20,9 @@ public class VoteRequest {
 
     @NotNull
     @Positive
-    private Long questionId;
+    private Long id;
+
+    @NotNull
+    private VoteEntity entity;
 
 }

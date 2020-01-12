@@ -10,7 +10,7 @@ import java.util.List;
 // so comment methods can avoid duplicates, as they are basically the same for those to classes
 @Entity
 @Data
-public class Comment {
+public class Comment implements Voteable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

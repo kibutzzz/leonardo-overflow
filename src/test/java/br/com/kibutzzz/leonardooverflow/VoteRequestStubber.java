@@ -8,7 +8,7 @@ public class VoteRequestStubber {
 
     public static VoteRequest generateValidRequest() {
         return VoteRequest.builder()
-                .questionId(1L)
+                .id(1L)
                 .type(VoteType.UP)
                 .build();
     }

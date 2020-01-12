@@ -9,7 +9,7 @@ import java.util.List;
 
 @Entity
 @Data
-public class Question {
+public class Question implements Voteable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

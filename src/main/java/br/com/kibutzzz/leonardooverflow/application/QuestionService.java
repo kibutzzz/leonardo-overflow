@@ -5,6 +5,7 @@ import br.com.kibutzzz.leonardooverflow.infrastructure.persistence.QuestionRepos
 import br.com.kibutzzz.leonardooverflow.infrastructure.persistence.model.Comment;
 import br.com.kibutzzz.leonardooverflow.infrastructure.persistence.model.Question;
 import br.com.kibutzzz.leonardooverflow.infrastructure.persistence.model.User;
+import br.com.kibutzzz.leonardooverflow.infrastructure.persistence.model.Vote;
 import br.com.kibutzzz.leonardooverflow.presentation.resources.mapper.QuestionMapper;
 import br.com.kibutzzz.leonardooverflow.presentation.resources.request.CreateQuestionRequest;
 import br.com.kibutzzz.leonardooverflow.presentation.resources.request.UpdateQuestionRequest;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -55,9 +57,7 @@ public class QuestionService {
     }
 
     public Question updateQuestion(UpdateQuestionRequest questionRequest, Long questionId, User user) {
-        //TODO replace with this.getQuestionById
-        Question question = questionRepository.findById(questionId).orElseThrow(
-                () -> new ApiException(HttpStatus.NOT_FOUND, "Question not found"));
+        Question question = getQuestionById(questionId);
 
         if (!user.equals(question.getUser())) {
             throw new AccessDeniedException("Only the question owner can update the question");
@@ -84,6 +84,18 @@ public class QuestionService {
         Question question = getQuestionById(questionId);
 
         question.getComments().add(savedComment);
+
+        questionRepository.save(question);
+    }
+
+    @Transactional(propagation = Propagation.MANDATORY)
+    public void addOrUpdateVote(Question question, Vote vote) {
+
+        List<Vote> votes = question.getVotes().stream()
+                .filter(v -> !v.getId().equals(vote.getId())).collect(Collectors.toList());
+
+        votes.add(vote);
+        question.setVotes(votes);
 
         questionRepository.save(question);
     }

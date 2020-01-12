@@ -23,7 +23,7 @@ public class VoteController {
     @PostMapping
     public ResponseEntity<Void> castVote(@Valid @RequestBody VoteRequest request, @AuthenticationPrincipal User user) {
 
-        voteService.castVote(request, user.getId());
+        voteService.castVote(request, user);
 
         return ResponseEntity.ok().build();
     }

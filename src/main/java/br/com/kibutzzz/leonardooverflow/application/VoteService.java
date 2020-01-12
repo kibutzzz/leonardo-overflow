@@ -22,33 +22,22 @@ public class VoteService {
 
     private final VoteRepositoty voteRepositoty;
 
-    private final QuestionRepository questionRepository;
-
-    private final UserRepository userRepository;
+    private final QuestionService questionService;
 
     @Transactional
-    public void castVote(VoteRequest request, Long userId) {
+    public void castVote(VoteRequest request, User user) {
 
-        Question question = questionRepository.findById(request.getQuestionId())
-                .orElseThrow(() -> new ApiException(HttpStatus.BAD_REQUEST, "Question Not Found"));
+        Question question = questionService.getQuestionById(request.getQuestionId());
 
-
-        User managedUser = userRepository.findUserById(userId);
         Vote vote = question.getVotes().stream()
-                .filter(v -> managedUser.equals(v.getUser()))
-                .findFirst().orElse(Vote.builder().user(managedUser).build());
+                .filter(v -> user.equals(v.getUser()))
+                .findFirst().orElse(Vote.builder().user(user).build());
 
         vote.setType(request.getType());
 
         voteRepositoty.save(vote);
 
-        List<Vote> votes = question.getVotes().stream()
-                .filter(v -> !v.getId().equals(vote.getId())).collect(Collectors.toList());
-
-        votes.add(vote);
-        question.setVotes(votes);
-
-        questionRepository.save(question);
+        questionService.addOrUpdateVote(question, vote);
 
     }
 }

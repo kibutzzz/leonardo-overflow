@@ -2,10 +2,9 @@ package br.com.kibutzzz.leonardooverflow.application;
 
 import br.com.kibutzzz.leonardooverflow.infrastructure.ApiException;
 import br.com.kibutzzz.leonardooverflow.infrastructure.persistence.CommentRepository;
-import br.com.kibutzzz.leonardooverflow.infrastructure.persistence.model.Comment;
-import br.com.kibutzzz.leonardooverflow.infrastructure.persistence.model.User;
-import br.com.kibutzzz.leonardooverflow.infrastructure.persistence.model.Vote;
+import br.com.kibutzzz.leonardooverflow.infrastructure.persistence.model.*;
 import br.com.kibutzzz.leonardooverflow.presentation.resources.mapper.CommentMapper;
+import br.com.kibutzzz.leonardooverflow.presentation.resources.request.CommentEntity;
 import br.com.kibutzzz.leonardooverflow.presentation.resources.request.CreateCommentRequest;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -27,16 +26,19 @@ public class CommentService {
 
     private final QuestionService questionService;
 
+    private final AnswerService answerService;
+
     @Transactional
-    public Comment createComment(Long questionId, CreateCommentRequest commentRequest, @NonNull User user) {
+    public Comment createComment(Long id, CreateCommentRequest commentRequest, @NonNull User user) {
+
+        Commentable commentable = getCommentable(commentRequest, id);
 
         Comment comment = commentMapper.fromRequest(commentRequest);
         comment.setUser(user);
 
         Comment savedComment = commentRepository.save(comment);
 
-        questionService.addComment(questionId, savedComment);
-
+        addComment(commentable, savedComment);
         return savedComment;
     }
 
@@ -55,4 +57,26 @@ public class CommentService {
 
         commentRepository.save(comment);
     }
+
+    private Commentable getCommentable(CreateCommentRequest request, Long id) {
+
+        if (CommentEntity.ANSWER.equals(request.getEntity())) {
+            return answerService.getAnswerById(id);
+        }
+
+        if (CommentEntity.QUESTION.equals(request.getEntity())) {
+            return questionService.getQuestionById(id);
+        }
+
+        throw new ApiException(HttpStatus.INTERNAL_SERVER_ERROR, "Commentable Entity not implemented");
+    }
+
+    private void addComment(Commentable commentable, Comment comment) {
+        if (commentable instanceof Answer) {
+            answerService.addComment((Answer) commentable, comment);
+        } else if (commentable instanceof Question) {
+            questionService.addComment((Question) commentable, comment);
+        }
+    }
+
 }

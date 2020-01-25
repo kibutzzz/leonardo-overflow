@@ -3,6 +3,7 @@ package br.com.kibutzzz.leonardooverflow.application;
 import br.com.kibutzzz.leonardooverflow.infrastructure.ApiException;
 import br.com.kibutzzz.leonardooverflow.infrastructure.persistence.AnswerRepository;
 import br.com.kibutzzz.leonardooverflow.infrastructure.persistence.model.Answer;
+import br.com.kibutzzz.leonardooverflow.infrastructure.persistence.model.Comment;
 import br.com.kibutzzz.leonardooverflow.infrastructure.persistence.model.User;
 import br.com.kibutzzz.leonardooverflow.infrastructure.persistence.model.Vote;
 import br.com.kibutzzz.leonardooverflow.presentation.resources.mapper.AnswerMapper;
@@ -54,4 +55,10 @@ public class AnswerService {
         return answer;
     }
 
+    @Transactional(propagation = Propagation.MANDATORY)
+    public void addComment(Answer answer, Comment saveComment) {
+        answer.getComments().add(saveComment);
+
+        answerRepository.save(answer);
+    }
 }

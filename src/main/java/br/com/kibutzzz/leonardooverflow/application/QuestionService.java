@@ -77,8 +77,7 @@ public class QuestionService {
     }
 
     @Transactional(propagation = Propagation.MANDATORY)
-    public void addComment(Long questionId, Comment savedComment) {
-        Question question = getQuestionById(questionId);
+    public void addComment(Question question, Comment savedComment) {
 
         question.getComments().add(savedComment);
 

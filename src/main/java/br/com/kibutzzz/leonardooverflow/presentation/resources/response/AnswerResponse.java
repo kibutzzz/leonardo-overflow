@@ -21,4 +21,6 @@ public class AnswerResponse {
 
     private List<CommentResponse> comments;
 
+    private SimplifiedUserResponse user;
+
 }

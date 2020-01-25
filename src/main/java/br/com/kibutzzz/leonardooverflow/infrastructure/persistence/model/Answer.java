@@ -14,12 +14,16 @@ public class Answer implements Voteable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long description;
+    @Column(length = 4096)
+    private String description;
 
     @OneToMany
     private List<Comment> comments = new ArrayList<>();
 
     @OneToMany
     private List<Vote> votes = new ArrayList<>();
+
+    @ManyToOne
+    private User user;
 
 }

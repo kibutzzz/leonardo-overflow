@@ -3,7 +3,11 @@ package br.com.kibutzzz.leonardooverflow.application;
 import br.com.kibutzzz.leonardooverflow.infrastructure.ApiException;
 import br.com.kibutzzz.leonardooverflow.infrastructure.persistence.AnswerRepository;
 import br.com.kibutzzz.leonardooverflow.infrastructure.persistence.model.Answer;
+import br.com.kibutzzz.leonardooverflow.infrastructure.persistence.model.User;
 import br.com.kibutzzz.leonardooverflow.infrastructure.persistence.model.Vote;
+import br.com.kibutzzz.leonardooverflow.presentation.resources.mapper.AnswerMapper;
+import br.com.kibutzzz.leonardooverflow.presentation.resources.request.AnswerRequest;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -18,6 +22,10 @@ import java.util.stream.Collectors;
 public class AnswerService {
 
     private final AnswerRepository answerRepository;
+
+    private final AnswerMapper answerMapper;
+
+    private final QuestionService questionService;
 
     public Answer getAnswerById(Long id) {
         return answerRepository.findById(id).orElseThrow(
@@ -34,4 +42,16 @@ public class AnswerService {
 
         answerRepository.save(answer);
     }
+
+    @Transactional
+    public Answer answerQuestion(Long questionId, AnswerRequest request, @NonNull User user) {
+
+        Answer answer = answerRepository.save(answerMapper.fromRequest(request));
+        answer.setUser(user);
+
+        questionService.addAnswer(questionId, answer);
+
+        return answer;
+    }
+
 }

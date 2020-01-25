@@ -2,10 +2,7 @@ package br.com.kibutzzz.leonardooverflow.application;
 
 import br.com.kibutzzz.leonardooverflow.infrastructure.ApiException;
 import br.com.kibutzzz.leonardooverflow.infrastructure.persistence.QuestionRepository;
-import br.com.kibutzzz.leonardooverflow.infrastructure.persistence.model.Comment;
-import br.com.kibutzzz.leonardooverflow.infrastructure.persistence.model.Question;
-import br.com.kibutzzz.leonardooverflow.infrastructure.persistence.model.User;
-import br.com.kibutzzz.leonardooverflow.infrastructure.persistence.model.Vote;
+import br.com.kibutzzz.leonardooverflow.infrastructure.persistence.model.*;
 import br.com.kibutzzz.leonardooverflow.presentation.resources.mapper.QuestionMapper;
 import br.com.kibutzzz.leonardooverflow.presentation.resources.request.CreateQuestionRequest;
 import br.com.kibutzzz.leonardooverflow.presentation.resources.request.UpdateQuestionRequest;
@@ -99,4 +96,15 @@ public class QuestionService {
 
         questionRepository.save(question);
     }
+
+    @Transactional(propagation = Propagation.MANDATORY)
+    public void addAnswer(Long questionId, Answer savedAnswer) {
+
+        Question question = getQuestionById(questionId);
+
+        question.getAnswers().add(savedAnswer);
+
+        questionRepository.save(question);
+    }
+
 }

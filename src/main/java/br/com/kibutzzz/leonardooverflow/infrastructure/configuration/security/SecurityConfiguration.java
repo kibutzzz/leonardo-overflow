@@ -42,11 +42,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 //public endpoints
                 .antMatchers(HttpMethod.POST, "/auth").permitAll()
                 .antMatchers(HttpMethod.GET, "/question").permitAll()
+                .antMatchers(HttpMethod.GET, "/question/*").permitAll()
                 .antMatchers(HttpMethod.GET, "/question/search/*").permitAll()
                 .antMatchers(HttpMethod.GET, "/question/user/*").permitAll()
                 .antMatchers(HttpMethod.POST, "/user").permitAll()
                 .antMatchers(HttpMethod.GET, "/user/validate/*").permitAll()
-                .antMatchers(HttpMethod.GET,"/tag").permitAll()
+                .antMatchers(HttpMethod.GET, "/tag").permitAll()
                 .antMatchers(HttpMethod.GET, "/tag/*").permitAll()
 
 

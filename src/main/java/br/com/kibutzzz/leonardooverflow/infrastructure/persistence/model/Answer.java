@@ -24,9 +24,11 @@ public class Answer implements Voteable, Commentable {
     private String description;
 
     @OneToMany
+    @Builder.Default
     private List<Comment> comments = new ArrayList<>();
 
     @OneToMany
+    @Builder.Default
     private List<Vote> votes = new ArrayList<>();
 
     @ManyToOne

@@ -28,6 +28,7 @@ public class Comment implements Voteable {
     private User user;
 
     @OneToMany
+    @Builder.Default
     private List<Vote> votes = new ArrayList<>();
 
 }

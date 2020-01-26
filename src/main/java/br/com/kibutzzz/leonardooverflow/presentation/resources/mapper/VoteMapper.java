@@ -14,6 +14,9 @@ public interface VoteMapper {
 
     @Named("countVoteTotals")
     default Long countVoteTotals(List<Vote> votes) {
+        if (votes == null) {
+            return 0L;
+        }
         long total = 0;
 
         for (Vote vote : votes) {

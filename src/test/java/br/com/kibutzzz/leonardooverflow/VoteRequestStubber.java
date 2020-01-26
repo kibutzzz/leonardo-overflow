@@ -1,6 +1,7 @@
 package br.com.kibutzzz.leonardooverflow;
 
 import br.com.kibutzzz.leonardooverflow.infrastructure.persistence.model.VoteType;
+import br.com.kibutzzz.leonardooverflow.presentation.resources.request.VoteEntity;
 import br.com.kibutzzz.leonardooverflow.presentation.resources.request.VoteRequest;
 
 public class VoteRequestStubber {
@@ -10,6 +11,7 @@ public class VoteRequestStubber {
         return VoteRequest.builder()
                 .id(1L)
                 .type(VoteType.UP)
+                .entity(VoteEntity.QUESTION)
                 .build();
     }
 }

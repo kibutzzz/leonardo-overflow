@@ -1,6 +1,9 @@
 package br.com.kibutzzz.leonardooverflow.infrastructure.persistence.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -10,6 +13,9 @@ import java.util.List;
 // so comment methods can avoid duplicates, as they are basically the same for those to classes
 @Entity
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Comment implements Voteable {
 
     @Id

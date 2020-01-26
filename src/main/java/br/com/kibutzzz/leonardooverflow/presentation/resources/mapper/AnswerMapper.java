@@ -9,7 +9,7 @@ import org.mapstruct.Mapping;
 
 import java.util.List;
 
-@Mapper(config = BaseMapperConfig.class, uses = {VoteMapper.class, CommentMapper.class})
+@Mapper(config = BaseMapperConfig.class, uses = {VoteMapper.class, CommentMapper.class, UserMapper.class})
 public interface AnswerMapper {
 
 

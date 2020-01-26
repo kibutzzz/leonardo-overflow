@@ -1,7 +1,10 @@
 package br.com.kibutzzz.leonardooverflow.presentation.resources.mapper;
 
+import br.com.kibutzzz.leonardooverflow.AnswerResponseStubber;
+import br.com.kibutzzz.leonardooverflow.AnswerStubber;
 import br.com.kibutzzz.leonardooverflow.infrastructure.persistence.model.Answer;
 import br.com.kibutzzz.leonardooverflow.presentation.resources.request.AnswerRequest;
+import br.com.kibutzzz.leonardooverflow.presentation.resources.response.AnswerResponse;
 import lombok.NoArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,4 +56,14 @@ class AnswerMapperTest {
 
         assertEquals(expected, answerMapper.fromRequest(validRequest));
     }
+
+    @Test
+    public void test_toResponse_withCompleteAnswer_shouldMapCorreclty() {
+
+        Answer answer = AnswerStubber.generateCompleteAnswer();
+        AnswerResponse expected = AnswerResponseStubber.generateCompleteResponse();
+
+        assertEquals(expected, answerMapper.toResponse(answer));
+    }
+
 }

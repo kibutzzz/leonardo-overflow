@@ -6,12 +6,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class RoleStubber {
-    public static Set<Role> allRoles() {
+  public static Set<Role> allRoles() {
 
-        Set<Role> roles = new HashSet<>();
-        roles.add(Role.ADMIN);
-        roles.add(Role.USER);
+    final Set<Role> roles = new HashSet<>();
+    roles.add(Role.ADMIN);
+    roles.add(Role.USER);
 
-        return roles;
-    }
+    return roles;
+  }
 }

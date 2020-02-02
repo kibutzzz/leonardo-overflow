@@ -11,25 +11,25 @@ import org.springframework.validation.Validator;
 @RequiredArgsConstructor
 public class CreateTagValidator implements Validator {
 
-    private final TagService tagService;
+  private final TagService tagService;
 
-    @Override
-    public boolean supports(Class<?> clazz) {
-        return CreateTagRequest.class.isAssignableFrom(clazz);
+  @Override
+  public boolean supports(final Class<?> clazz) {
+    return CreateTagRequest.class.isAssignableFrom(clazz);
+  }
+
+  @Override
+  public void validate(final Object target, final Errors errors) {
+
+    if (errors.hasErrors()) {
+      return;
     }
 
-    @Override
-    public void validate(Object target, Errors errors) {
+    final CreateTagRequest request = (CreateTagRequest) target;
 
-        if(errors.hasErrors()) {
-            return;
-        }
-
-        CreateTagRequest request = (CreateTagRequest) target;
-
-        if(tagService.tagExists(request.getName())){
-            errors.rejectValue("name", "validation.tag.create.alreadyExists");
-        }
-
+    if (tagService.tagExists(request.getName())) {
+      errors.rejectValue("name", "validation.tag.create.alreadyExists");
     }
+
+  }
 }

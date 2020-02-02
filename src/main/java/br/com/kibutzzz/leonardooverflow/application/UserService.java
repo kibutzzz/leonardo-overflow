@@ -17,38 +17,38 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class UserService {
 
-    private final UserRepository userRepository;
+  private final UserRepository userRepository;
 
-    @Transactional
-    public void registerUser(User user) {
-        Set<Role> defaultRoles = new HashSet<>();
-        defaultRoles.add(Role.USER);
-        user.setRoles(defaultRoles);
+  @Transactional
+  public void registerUser(final User user) {
+    final Set<Role> defaultRoles = new HashSet<>();
+    defaultRoles.add(Role.USER);
+    user.setRoles(defaultRoles);
 
-        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
-        userRepository.save(user);
-    }
+    user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+    userRepository.save(user);
+  }
 
-    @Transactional(readOnly = true)
-    public List<User> listUsers() {
-        return userRepository.findAll();
-    }
+  @Transactional(readOnly = true)
+  public List<User> listUsers() {
+    return userRepository.findAll();
+  }
 
-    @Transactional(readOnly = true)
-    public UserDetails findUserByUsername(String username) {
-        return userRepository.findUserByUsername(username);
-    }
+  @Transactional(readOnly = true)
+  public UserDetails findUserByUsername(final String username) {
+    return userRepository.findUserByUsername(username);
+  }
 
-    @Transactional(readOnly = true)
-    public User findUserById(Long userId) {
-        return userRepository.findUserById(userId);
-    }
+  @Transactional(readOnly = true)
+  public User findUserById(final Long userId) {
+    return userRepository.findUserById(userId);
+  }
 
-    public boolean isUserNameTaken(String username) {
-        return userRepository.existsByUsername(username);
-    }
+  public boolean isUserNameTaken(final String username) {
+    return userRepository.existsByUsername(username);
+  }
 
-    public boolean userExistsById(Long id) {
-        return userRepository.existsById(id);
-    }
+  public boolean userExistsById(final Long id) {
+    return userRepository.existsById(id);
+  }
 }

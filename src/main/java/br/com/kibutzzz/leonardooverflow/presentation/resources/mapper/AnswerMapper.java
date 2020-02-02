@@ -13,15 +13,15 @@ import java.util.List;
 public interface AnswerMapper {
 
 
-    @Mapping(target = "voteCount", source = "votes", qualifiedByName = {"VoteMapper", "countVoteTotals"})
-    AnswerResponse toResponse(Answer answer);
+  @Mapping(target = "voteCount", source = "votes", qualifiedByName = {"VoteMapper", "countVoteTotals"})
+  AnswerResponse toResponse(Answer answer);
 
-    List<AnswerResponse> toResponse(List<Answer> answers);
+  List<AnswerResponse> toResponse(List<Answer> answers);
 
-    @Mapping(target = "user", ignore = true)
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "votes", ignore = true)
-    @Mapping(target = "comments", ignore = true)
-    Answer fromRequest(AnswerRequest request);
+  @Mapping(target = "user", ignore = true)
+  @Mapping(target = "id", ignore = true)
+  @Mapping(target = "votes", ignore = true)
+  @Mapping(target = "comments", ignore = true)
+  Answer fromRequest(AnswerRequest request);
 
 }

@@ -2,7 +2,11 @@ package br.com.kibutzzz.leonardooverflow.application;
 
 import br.com.kibutzzz.leonardooverflow.infrastructure.ApiException;
 import br.com.kibutzzz.leonardooverflow.infrastructure.persistence.QuestionRepository;
-import br.com.kibutzzz.leonardooverflow.infrastructure.persistence.model.*;
+import br.com.kibutzzz.leonardooverflow.infrastructure.persistence.model.Answer;
+import br.com.kibutzzz.leonardooverflow.infrastructure.persistence.model.Comment;
+import br.com.kibutzzz.leonardooverflow.infrastructure.persistence.model.Question;
+import br.com.kibutzzz.leonardooverflow.infrastructure.persistence.model.User;
+import br.com.kibutzzz.leonardooverflow.infrastructure.persistence.model.Vote;
 import br.com.kibutzzz.leonardooverflow.presentation.resources.mapper.QuestionMapper;
 import br.com.kibutzzz.leonardooverflow.presentation.resources.request.CreateQuestionRequest;
 import br.com.kibutzzz.leonardooverflow.presentation.resources.request.UpdateQuestionRequest;
@@ -21,89 +25,89 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class QuestionService {
 
-    private final QuestionRepository questionRepository;
+  private final QuestionRepository questionRepository;
 
-    private final UserService userService;
+  private final UserService userService;
 
-    private final TagService tagService;
+  private final TagService tagService;
 
-    private final QuestionMapper questionMapper;
+  private final QuestionMapper questionMapper;
 
-    public List<Question> listQuestions() {
-        return questionRepository.findAll();
+  public List<Question> listQuestions() {
+    return questionRepository.findAll();
+  }
+
+  @Transactional
+  public Question createQuestion(final CreateQuestionRequest questionRequest, final User user) {
+    final Question question = questionMapper.fromRequest(questionRequest);
+    question.setUser(user);
+
+    question.setTags(tagService.findAllTagsByIds(questionRequest.getTagsIds()));
+    question.setCreationDate(LocalDateTime.now());
+
+    return questionRepository.save(question);
+  }
+
+  public Question getQuestionById(final Long id) {
+    return questionRepository.findById(id).orElseThrow(
+      () -> new ApiException(HttpStatus.NOT_FOUND, "question not found"));
+  }
+
+  public List<Question> searchQuestionsByExpression(final String expression) {
+    return questionRepository.findByTitleContainingIgnoreCase(expression);
+  }
+
+  public Question updateQuestion(final UpdateQuestionRequest questionRequest, final Long questionId, final User user) {
+    final Question question = getQuestionById(questionId);
+
+    if (!user.equals(question.getUser())) {
+      throw new AccessDeniedException("Only the question owner can update the question");
     }
 
-    @Transactional
-    public Question createQuestion(CreateQuestionRequest questionRequest, User user) {
-        Question question = questionMapper.fromRequest(questionRequest);
-        question.setUser(user);
+    question.setTitle(questionRequest.getTitle());
+    question.setDescription(questionRequest.getDescription());
 
-        question.setTags(tagService.findAllTagsByIds(questionRequest.getTagsIds()));
-        question.setCreationDate(LocalDateTime.now());
+    question.setUpdateDate(LocalDateTime.now());
 
-        return questionRepository.save(question);
+    return questionRepository.save(question);
+  }
+
+  public List<Question> listQuestionsByUserId(final Long id) {
+    if (!userService.userExistsById(id)) {
+      throw new ApiException(HttpStatus.NOT_FOUND, "User not found");
     }
 
-    public Question getQuestionById(Long id) {
-        return questionRepository.findById(id).orElseThrow(
-                () -> new ApiException(HttpStatus.NOT_FOUND, "question not found"));
-    }
+    return questionRepository.findByUserId(id);
+  }
 
-    public List<Question> searchQuestionsByExpression(String expression) {
-        return questionRepository.findByTitleContainingIgnoreCase(expression);
-    }
+  @Transactional(propagation = Propagation.MANDATORY)
+  public void addComment(final Question question, final Comment savedComment) {
 
-    public Question updateQuestion(UpdateQuestionRequest questionRequest, Long questionId, User user) {
-        Question question = getQuestionById(questionId);
+    question.getComments().add(savedComment);
 
-        if (!user.equals(question.getUser())) {
-            throw new AccessDeniedException("Only the question owner can update the question");
-        }
+    questionRepository.save(question);
+  }
 
-        question.setTitle(questionRequest.getTitle());
-        question.setDescription(questionRequest.getDescription());
+  @Transactional(propagation = Propagation.MANDATORY)
+  public void addOrUpdateVote(final Question question, final Vote vote) {
 
-        question.setUpdateDate(LocalDateTime.now());
+    final List<Vote> votes = question.getVotes().stream()
+      .filter(v -> !v.getId().equals(vote.getId())).collect(Collectors.toList());
 
-        return questionRepository.save(question);
-    }
+    votes.add(vote);
+    question.setVotes(votes);
 
-    public List<Question> listQuestionsByUserId(Long id) {
-        if (!userService.userExistsById(id)) {
-            throw new ApiException(HttpStatus.NOT_FOUND, "User not found");
-        }
+    questionRepository.save(question);
+  }
 
-        return questionRepository.findByUserId(id);
-    }
+  @Transactional(propagation = Propagation.MANDATORY)
+  public void addAnswer(final Long questionId, final Answer savedAnswer) {
 
-    @Transactional(propagation = Propagation.MANDATORY)
-    public void addComment(Question question, Comment savedComment) {
+    final Question question = getQuestionById(questionId);
 
-        question.getComments().add(savedComment);
+    question.getAnswers().add(savedAnswer);
 
-        questionRepository.save(question);
-    }
-
-    @Transactional(propagation = Propagation.MANDATORY)
-    public void addOrUpdateVote(Question question, Vote vote) {
-
-        List<Vote> votes = question.getVotes().stream()
-                .filter(v -> !v.getId().equals(vote.getId())).collect(Collectors.toList());
-
-        votes.add(vote);
-        question.setVotes(votes);
-
-        questionRepository.save(question);
-    }
-
-    @Transactional(propagation = Propagation.MANDATORY)
-    public void addAnswer(Long questionId, Answer savedAnswer) {
-
-        Question question = getQuestionById(questionId);
-
-        question.getAnswers().add(savedAnswer);
-
-        questionRepository.save(question);
-    }
+    questionRepository.save(question);
+  }
 
 }

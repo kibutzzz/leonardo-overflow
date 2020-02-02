@@ -12,22 +12,22 @@ import java.util.List;
 @Named("VoteMapper")
 public interface VoteMapper {
 
-    @Named("countVoteTotals")
-    default Long countVoteTotals(List<Vote> votes) {
-        if (votes == null) {
-            return 0L;
-        }
-        long total = 0;
-
-        for (Vote vote : votes) {
-            if (VoteType.UP.equals(vote.getType())) {
-                total++;
-                continue;
-            }
-            total--;
-
-        }
-
-        return total;
+  @Named("countVoteTotals")
+  default Long countVoteTotals(List<Vote> votes) {
+    if (votes == null) {
+      return 0L;
     }
+    long total = 0;
+
+    for (Vote vote : votes) {
+      if (VoteType.UP.equals(vote.getType())) {
+        total++;
+        continue;
+      }
+      total--;
+
+    }
+
+    return total;
+  }
 }

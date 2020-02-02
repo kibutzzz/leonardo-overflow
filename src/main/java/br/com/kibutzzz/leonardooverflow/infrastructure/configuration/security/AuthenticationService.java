@@ -13,14 +13,14 @@ import static java.util.Objects.isNull;
 @RequiredArgsConstructor
 public class AuthenticationService implements UserDetailsService {
 
-    private final UserService userService;
+  private final UserService userService;
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserDetails user = userService.findUserByUsername(username);
-        if(isNull(user)) {
-            throw new UsernameNotFoundException("Invalid Credentials!");
-        }
-        return user;
+  @Override
+  public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
+    final UserDetails user = userService.findUserByUsername(username);
+    if (isNull(user)) {
+      throw new UsernameNotFoundException("Invalid Credentials!");
     }
+    return user;
+  }
 }

@@ -22,43 +22,43 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class AnswerService {
 
-    private final AnswerRepository answerRepository;
+  private final AnswerRepository answerRepository;
 
-    private final AnswerMapper answerMapper;
+  private final AnswerMapper answerMapper;
 
-    private final QuestionService questionService;
+  private final QuestionService questionService;
 
-    public Answer getAnswerById(Long id) {
-        return answerRepository.findById(id).orElseThrow(
-                () -> new ApiException(HttpStatus.NOT_FOUND, "answer not found"));
-    }
+  public Answer getAnswerById(final Long id) {
+    return answerRepository.findById(id).orElseThrow(
+      () -> new ApiException(HttpStatus.NOT_FOUND, "answer not found"));
+  }
 
-    @Transactional(propagation = Propagation.MANDATORY)
-    public void addOrUpdateVote(Answer answer, Vote vote) {
-        List<Vote> votes = answer.getVotes().stream()
-                .filter(v -> !v.getId().equals(vote.getId())).collect(Collectors.toList());
+  @Transactional(propagation = Propagation.MANDATORY)
+  public void addOrUpdateVote(final Answer answer, final Vote vote) {
+    final List<Vote> votes = answer.getVotes().stream()
+      .filter(v -> !v.getId().equals(vote.getId())).collect(Collectors.toList());
 
-        votes.add(vote);
-        answer.setVotes(votes);
+    votes.add(vote);
+    answer.setVotes(votes);
 
-        answerRepository.save(answer);
-    }
+    answerRepository.save(answer);
+  }
 
-    @Transactional
-    public Answer answerQuestion(Long questionId, AnswerRequest request, @NonNull User user) {
+  @Transactional
+  public Answer answerQuestion(final Long questionId, final AnswerRequest request, @NonNull final User user) {
 
-        Answer answer = answerRepository.save(answerMapper.fromRequest(request));
-        answer.setUser(user);
+    final Answer answer = answerRepository.save(answerMapper.fromRequest(request));
+    answer.setUser(user);
 
-        questionService.addAnswer(questionId, answer);
+    questionService.addAnswer(questionId, answer);
 
-        return answer;
-    }
+    return answer;
+  }
 
-    @Transactional(propagation = Propagation.MANDATORY)
-    public void addComment(Answer answer, Comment saveComment) {
-        answer.getComments().add(saveComment);
+  @Transactional(propagation = Propagation.MANDATORY)
+  public void addComment(final Answer answer, final Comment saveComment) {
+    answer.getComments().add(saveComment);
 
-        answerRepository.save(answer);
-    }
+    answerRepository.save(answer);
+  }
 }

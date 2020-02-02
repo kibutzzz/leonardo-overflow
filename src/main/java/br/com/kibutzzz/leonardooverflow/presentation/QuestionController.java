@@ -12,7 +12,14 @@ import br.com.kibutzzz.leonardooverflow.presentation.resources.validator.CreateQ
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -22,48 +29,49 @@ import java.util.List;
 @RequiredArgsConstructor
 public class QuestionController {
 
-    private final QuestionService questionService;
+  private final QuestionService questionService;
 
-    private final CreateQuestionValidator createQuestionValidator;
+  private final CreateQuestionValidator createQuestionValidator;
 
-    private final QuestionMapper questionMapper;
+  private final QuestionMapper questionMapper;
 
-    @InitBinder("createQuestionRequest")
-    public void setCreateQuestionValidator(WebDataBinder binder) {
-        binder.addValidators(createQuestionValidator);
-    }
+  @InitBinder("createQuestionRequest")
+  public void setCreateQuestionValidator(final WebDataBinder binder) {
+    binder.addValidators(createQuestionValidator);
+  }
 
-    @GetMapping
-    public List<SimplifiedQuestionResponse> listQuestions() {
+  @GetMapping
+  public List<SimplifiedQuestionResponse> listQuestions() {
 
-        return questionMapper.toSimplifiedQuestionResponse(questionService.listQuestions());
-    }
+    return questionMapper.toSimplifiedQuestionResponse(questionService.listQuestions());
+  }
 
-    @GetMapping("/{id}")
-    public SpecificQuestionResponse getQuestionById(@PathVariable Long id) {
-        return questionMapper.toSpecificQuestionResponse(questionService.getQuestionById(id));
-    }
+  @GetMapping("/{id}")
+  public SpecificQuestionResponse getQuestionById(@PathVariable final Long id) {
+    return questionMapper.toSpecificQuestionResponse(questionService.getQuestionById(id));
+  }
 
-    @GetMapping("/user/{id}")
-    public List<SimplifiedQuestionResponse> getByUserId(@PathVariable Long id) {
-        return questionMapper.toSimplifiedQuestionResponse(questionService.listQuestionsByUserId(id));
-    }
+  @GetMapping("/user/{id}")
+  public List<SimplifiedQuestionResponse> getByUserId(@PathVariable final Long id) {
+    return questionMapper.toSimplifiedQuestionResponse(questionService.listQuestionsByUserId(id));
+  }
 
-    @PostMapping
-    public QuestionResponse createQuestion(@Valid @RequestBody CreateQuestionRequest questionRequest,
-                                           @AuthenticationPrincipal User user) {
-        return questionMapper.toResponse(questionService.createQuestion(questionRequest, user));
-    }
+  @PostMapping
+  public QuestionResponse createQuestion(@Valid @RequestBody final CreateQuestionRequest questionRequest,
+                                         @AuthenticationPrincipal final User user) {
+    return questionMapper.toResponse(questionService.createQuestion(questionRequest, user));
+  }
 
-    @GetMapping("/search/{expression}")
-    public List<SimplifiedQuestionResponse> searchQuestionsByExpression(@PathVariable String expression) {
+  @GetMapping("/search/{expression}")
+  public List<SimplifiedQuestionResponse> searchQuestionsByExpression(@PathVariable final String expression) {
 
-        return questionMapper.toSimplifiedQuestionResponse(questionService.searchQuestionsByExpression(expression));
-    }
+    return questionMapper.toSimplifiedQuestionResponse(questionService.searchQuestionsByExpression(expression));
+  }
 
-    @PatchMapping("/{questionId}")
-    public QuestionResponse updateQuestion(@Valid @RequestBody UpdateQuestionRequest questionRequest,
-                                           @PathVariable Long questionId, @AuthenticationPrincipal User user) {
-        return questionMapper.toResponse(questionService.updateQuestion(questionRequest, questionId, user));
-    }
+  @PatchMapping("/{questionId}")
+  public QuestionResponse updateQuestion(@Valid @RequestBody final UpdateQuestionRequest questionRequest,
+                                         @PathVariable final Long questionId,
+                                         @AuthenticationPrincipal final User user) {
+    return questionMapper.toResponse(questionService.updateQuestion(questionRequest, questionId, user));
+  }
 }

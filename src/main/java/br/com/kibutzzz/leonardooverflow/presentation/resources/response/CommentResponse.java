@@ -11,11 +11,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CommentResponse {
 
-    private Long id;
+  private Long id;
 
-    private String text;
+  private String text;
 
-    private Integer voteCount;
+  private Integer voteCount;
 
-    private SimplifiedUserResponse user;
+  private SimplifiedUserResponse user;
 }

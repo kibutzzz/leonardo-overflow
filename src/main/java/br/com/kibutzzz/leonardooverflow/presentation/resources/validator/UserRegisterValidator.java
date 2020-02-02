@@ -1,7 +1,6 @@
 package br.com.kibutzzz.leonardooverflow.presentation.resources.validator;
 
 import br.com.kibutzzz.leonardooverflow.application.UserService;
-import br.com.kibutzzz.leonardooverflow.infrastructure.persistence.UserRepository;
 import br.com.kibutzzz.leonardooverflow.presentation.resources.request.CreateUserRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -13,28 +12,28 @@ import org.springframework.validation.Validator;
 @RequiredArgsConstructor
 public class UserRegisterValidator implements Validator {
 
-    private final UserService userService;
+  private final UserService userService;
 
-    @Override
-    public boolean supports(Class<?> clazz) {
-        return CreateUserRequest.class.isAssignableFrom(clazz);
+  @Override
+  public boolean supports(final Class<?> clazz) {
+    return CreateUserRequest.class.isAssignableFrom(clazz);
+  }
+
+  @Override
+  public void validate(final Object target, final Errors errors) {
+
+    if (errors.hasErrors()) {
+      return;
     }
 
-    @Override
-    public void validate(Object target, Errors errors) {
-        CreateUserRequest request = (CreateUserRequest) target;
-
-        if(errors.hasErrors()) {
-            return;
-        }
-
-        if (!request.getPassword().equals(request.getPasswordConfirmation())) {
-            errors.rejectValue("password", "validation.user.create.passwordMismatch");
-        }
-
-        if(userService.isUserNameTaken(request.getUsername())) {
-            errors.rejectValue("username", "validation.user.create.usernameTaken");
-        }
-
+    final CreateUserRequest request = (CreateUserRequest) target;
+    if (!request.getPassword().equals(request.getPasswordConfirmation())) {
+      errors.rejectValue("password", "validation.user.create.passwordMismatch");
     }
+
+    if (userService.isUserNameTaken(request.getUsername())) {
+      errors.rejectValue("username", "validation.user.create.usernameTaken");
+    }
+
+  }
 }

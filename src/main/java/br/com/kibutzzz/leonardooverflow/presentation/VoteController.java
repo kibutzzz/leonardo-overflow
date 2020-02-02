@@ -18,14 +18,15 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class VoteController {
 
-    private final VoteService voteService;
+  private final VoteService voteService;
 
-    @PostMapping
-    public ResponseEntity<Void> castVote(@Valid @RequestBody VoteRequest request, @AuthenticationPrincipal User user) {
+  @PostMapping
+  public ResponseEntity<Void> castVote(@Valid @RequestBody final VoteRequest request,
+                                       @AuthenticationPrincipal final User user) {
 
-        voteService.castVote(request, user);
+    voteService.castVote(request, user);
 
-        return ResponseEntity.ok().build();
-    }
+    return ResponseEntity.ok().build();
+  }
 
 }

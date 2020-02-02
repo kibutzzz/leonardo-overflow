@@ -9,11 +9,11 @@ import javax.validation.constraints.Size;
 @Data
 public class CreateCommentRequest {
 
-    @NotBlank
-    @Size(min = 3, max = 255)
-    private String text;
+  @NotBlank
+  @Size(min = 3, max = 255)
+  private String text;
 
-    @NotNull
-    private CommentEntity entity;
+  @NotNull
+  private CommentEntity entity;
 
 }

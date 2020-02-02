@@ -15,14 +15,14 @@ import javax.validation.constraints.Positive;
 @AllArgsConstructor
 public class VoteRequest {
 
-    @NotNull
-    private VoteType type;
+  @NotNull
+  private VoteType type;
 
-    @NotNull
-    @Positive
-    private Long id;
+  @NotNull
+  @Positive
+  private Long id;
 
-    @NotNull
-    private VoteEntity entity;
+  @NotNull
+  private VoteEntity entity;
 
 }

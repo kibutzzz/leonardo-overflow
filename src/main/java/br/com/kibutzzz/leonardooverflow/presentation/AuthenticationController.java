@@ -10,7 +10,11 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
@@ -19,24 +23,24 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class AuthenticationController {
 
-    private final AuthenticationManager authenticationManager;
+  private final AuthenticationManager authenticationManager;
 
-    private final TokenService tokenService;
+  private final TokenService tokenService;
 
-    @PostMapping
-    public ResponseEntity<?> authenticate(@Valid @RequestBody LoginRequest request) {
-        UsernamePasswordAuthenticationToken authentication =
-                new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword());
+  @PostMapping
+  public ResponseEntity<?> authenticate(@Valid @RequestBody final LoginRequest request) {
+    final UsernamePasswordAuthenticationToken authentication =
+      new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword());
 
-        Authentication auth = authenticationManager.authenticate(authentication);
-        String token = tokenService.generateToken(auth);
+    final Authentication auth = authenticationManager.authenticate(authentication);
+    final String token = tokenService.generateToken(auth);
 
-        return ResponseEntity.ok(new TokenResponse(token, "Bearer"));
-    }
+    return ResponseEntity.ok(new TokenResponse(token, "Bearer"));
+  }
 
-    @ExceptionHandler(AuthenticationException.class)
-    public ResponseEntity<ApiErrorResponse> handleAuthenticationException(AuthenticationException e) {
-        return ResponseEntity.badRequest().body(new ApiErrorResponse(e.getMessage()));
-    }
+  @ExceptionHandler(AuthenticationException.class)
+  public ResponseEntity<ApiErrorResponse> handleAuthenticationException(final AuthenticationException ex) {
+    return ResponseEntity.badRequest().body(new ApiErrorResponse(ex.getMessage()));
+  }
 
 }

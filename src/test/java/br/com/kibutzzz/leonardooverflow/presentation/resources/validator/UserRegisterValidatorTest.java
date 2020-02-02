@@ -12,7 +12,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.Errors;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -20,81 +22,81 @@ import static org.mockito.Mockito.when;
 @NoArgsConstructor
 public class UserRegisterValidatorTest {
 
-    @Mock
-    private UserService userService;
+  @Mock
+  private UserService userService;
 
-    @InjectMocks
-    private UserRegisterValidator validator;
+  @InjectMocks
+  private UserRegisterValidator validator;
 
-    private Errors errors;
+  private Errors errors;
 
-    @Test
-    public void test_supports_withAssignableClass_shouldReturnTrue() {
+  @Test
+  public void test_supports_withAssignableClass_shouldReturnTrue() {
 
-        assertTrue(validator.supports(CreateUserRequest.class));
+    assertTrue(validator.supports(CreateUserRequest.class));
 
-    }
+  }
 
-    @Test
-    public void test_supports_withNotAssignableClass_shouldReturnFalse() {
+  @Test
+  public void test_supports_withNotAssignableClass_shouldReturnFalse() {
 
-        assertFalse(validator.supports(Object.class));
+    assertFalse(validator.supports(Object.class));
 
-    }
+  }
 
-    @Test
-    public void test_validate_withValidObject_shouldAddErrors() {
+  @Test
+  public void test_validate_withValidObject_shouldAddErrors() {
 
-        CreateUserRequest target = CreateUserRequestStubber.generateValidCreateUserRequest();
+    final CreateUserRequest target = CreateUserRequestStubber.generateValidCreateUserRequest();
 
-        errors = new BeanPropertyBindingResult(target, "validRequest");
+    errors = new BeanPropertyBindingResult(target, "validRequest");
 
-        validator.validate(target, errors);
+    validator.validate(target, errors);
 
-        assertFalse(errors.hasErrors());
+    assertFalse(errors.hasErrors());
 
-    }
+  }
 
-    @Test
-    public void test_validate_withPreviousValidationError_shouldNotAddNewError() {
+  @Test
+  public void test_validate_withPreviousValidationError_shouldNotAddNewError() {
 
-        CreateUserRequest target = CreateUserRequestStubber.generateInvalidCreateUserRequest();
+    final CreateUserRequest target = CreateUserRequestStubber.generateInvalidCreateUserRequest();
 
-        errors = new BeanPropertyBindingResult(target, "validRequest");
-        errors.rejectValue("username", "UserNameBlank");
-        validator.validate(target, errors);
+    errors = new BeanPropertyBindingResult(target, "validRequest");
+    errors.rejectValue("username", "UserNameBlank");
+    validator.validate(target, errors);
 
-        assertEquals(1, errors.getErrorCount());
+    assertEquals(1, errors.getErrorCount());
 
-    }
+  }
 
-    @Test
-    public void test_validate_withoutMatchingPasswords_shouldAddCorrectError() {
+  @Test
+  public void test_validate_withoutMatchingPasswords_shouldAddCorrectError() {
 
-        CreateUserRequest target = CreateUserRequestStubber.generateInvalidCreateUserRequest();
+    final CreateUserRequest target = CreateUserRequestStubber.generateInvalidCreateUserRequest();
 
-        errors = new BeanPropertyBindingResult(target, "invalid");
+    errors = new BeanPropertyBindingResult(target, "invalid");
 
-        validator.validate(target, errors);
+    validator.validate(target, errors);
 
-        assertEquals("validation.user.create.passwordMismatch", errors.getAllErrors().get(0).getCode());
+    assertEquals("validation.user.create.passwordMismatch", errors.getAllErrors().get(0).getCode());
 
 
-    }
+  }
 
-    @Test
-    public void test_validate_withTakenUsername_shouldAddCorrectError() {
+  @Test
+  public void test_validate_withTakenUsername_shouldAddCorrectError() {
 
-        when(userService.isUserNameTaken(any())).thenReturn(true);
+    when(userService.isUserNameTaken(any())).thenReturn(true);
 
-        CreateUserRequest target = CreateUserRequestStubber.generateValidCreateUserRequest();
+    final CreateUserRequest target = CreateUserRequestStubber.generateValidCreateUserRequest();
 
-        errors = new BeanPropertyBindingResult(target, "validRequest");
+    errors = new BeanPropertyBindingResult(target, "validRequest");
 
-        validator.validate(target, errors);
+    validator.validate(target, errors);
 
-        assertEquals("validation.user.create.usernameTaken", errors.getAllErrors().get(0).getCode());
+    assertEquals("validation.user.create.usernameTaken", errors.getAllErrors().get(0).getCode());
 
-    }
+  }
 
 }

@@ -14,8 +14,8 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 public class AnswerRequest {
 
-    @NotNull
-    @Size(min = 16, max = 4096)
-    private String description;
+  @NotNull
+  @Size(min = 16, max = 4096)
+  private String description;
 
 }

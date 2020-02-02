@@ -7,7 +7,11 @@ import br.com.kibutzzz.leonardooverflow.presentation.resources.request.AnswerReq
 import br.com.kibutzzz.leonardooverflow.presentation.resources.response.AnswerResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
@@ -16,15 +20,16 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class AnswerController {
 
-    private final AnswerService answerService;
+  private final AnswerService answerService;
 
-    private final AnswerMapper answerMapper;
+  private final AnswerMapper answerMapper;
 
-    @PostMapping("/{questionId}")
-    public AnswerResponse answerQuestion(@PathVariable Long questionId, @RequestBody @Valid AnswerRequest request,
-                                         @AuthenticationPrincipal User user) {
+  @PostMapping("/{questionId}")
+  public AnswerResponse answerQuestion(@PathVariable final Long questionId,
+                                       @RequestBody @Valid final AnswerRequest request,
+                                       @AuthenticationPrincipal final User user) {
 
-        return answerMapper.toResponse(answerService.answerQuestion(questionId, request, user));
-    }
+    return answerMapper.toResponse(answerService.answerQuestion(questionId, request, user));
+  }
 
 }

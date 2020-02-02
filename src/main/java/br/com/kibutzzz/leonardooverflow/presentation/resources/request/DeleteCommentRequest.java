@@ -11,10 +11,10 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 public class DeleteCommentRequest {
 
-    @NotNull
-    private Long commentId;
+  @NotNull
+  private Long commentId;
 
-    @NotNull
-    private CommentEntity entity;
+  @NotNull
+  private CommentEntity entity;
 
 }

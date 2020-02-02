@@ -7,13 +7,13 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 @Configuration
 public class InternationalizationConfiguration {
 
-    @Bean
-    public ResourceBundleMessageSource messageSource() {
-        ResourceBundleMessageSource bundle = new ResourceBundleMessageSource();
-        bundle.setBasename("messages");
-        bundle.setDefaultEncoding("UTF-8");
-        bundle.setUseCodeAsDefaultMessage(true);
-        return bundle;
-    }
+  @Bean
+  public ResourceBundleMessageSource messageSource() {
+    final ResourceBundleMessageSource bundle = new ResourceBundleMessageSource();
+    bundle.setBasename("messages");
+    bundle.setDefaultEncoding("UTF-8");
+    bundle.setUseCodeAsDefaultMessage(true);
+    return bundle;
+  }
 
 }

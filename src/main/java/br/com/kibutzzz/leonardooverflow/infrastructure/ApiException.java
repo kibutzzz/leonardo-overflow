@@ -11,14 +11,14 @@ import org.springframework.http.ResponseEntity;
 @AllArgsConstructor
 public class ApiException extends RuntimeException {
 
-    private HttpStatus status;
+  private HttpStatus status;
 
-    private String message;
+  private String message;
 
 
-    public ResponseEntity<ApiErrorResponse> toResponseEntity() {
-        ApiErrorResponse errorResponse = new ApiErrorResponse(message);
-        return ResponseEntity.status(status).body(errorResponse);
-    }
+  public ResponseEntity<ApiErrorResponse> toResponseEntity() {
+    final ApiErrorResponse errorResponse = new ApiErrorResponse(message);
+    return ResponseEntity.status(status).body(errorResponse);
+  }
 
 }

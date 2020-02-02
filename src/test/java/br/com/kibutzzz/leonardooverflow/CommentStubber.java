@@ -7,19 +7,19 @@ import java.util.List;
 
 public class CommentStubber {
 
-    public static List<Comment> generateCompleteCommentList() {
-        List<Comment> comments = new ArrayList<>();
-        comments.add(generateCompleteComment());
+  public static List<Comment> generateCompleteCommentList() {
+    final List<Comment> comments = new ArrayList<>();
+    comments.add(generateCompleteComment());
 
-        return comments;
-    }
+    return comments;
+  }
 
-    public static Comment generateCompleteComment() {
-        return Comment.builder()
-                .id(1L)
-                .text("COMMENT ONE")
-                .user(UserStubber.generateCompleteUser())
-                .votes(VoteStubber.generatePositiveVoteList())
-                .build();
-    }
+  public static Comment generateCompleteComment() {
+    return Comment.builder()
+      .id(1L)
+      .text("COMMENT ONE")
+      .user(UserStubber.generateCompleteUser())
+      .votes(VoteStubber.generatePositiveVoteList())
+      .build();
+  }
 }

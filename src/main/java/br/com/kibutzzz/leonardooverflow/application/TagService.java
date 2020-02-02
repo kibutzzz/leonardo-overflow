@@ -14,34 +14,35 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TagService {
 
-    private final TagRepository tagRepository;
+  private final TagRepository tagRepository;
 
-    private final TagMapper tagMapper;
+  private final TagMapper tagMapper;
 
-    public Tag createTag(@Valid CreateTagRequest tagRequest) {
+  public Tag createTag(@Valid final CreateTagRequest tagRequest) {
 
-        return tagRepository.save(tagMapper.fromRequest(tagRequest));
-    }
+    return tagRepository.save(tagMapper.fromRequest(tagRequest));
+  }
 
-    public List<Tag> findAllTagsByIds() {
+  public List<Tag> findAllTagsByIds() {
 
-        return tagRepository.findAll();
-    }
+    return tagRepository.findAll();
+  }
 
-    public boolean tagExists(String name) {
+  public List<Tag> findAllTagsByIds(final List<Long> tagsIds) {
+    return tagRepository.findAllById(tagsIds);
+  }
 
-        return tagRepository.existsByName(name);
-    }
+  public boolean tagExists(final String name) {
 
-    public List<Tag> findAllTagsByIds(List<Long> tagsIds) {
-        return tagRepository.findAllById(tagsIds);
-    }
+    return tagRepository.existsByName(name);
+  }
 
-    public boolean tagExists(Long id) {
-        return tagRepository.existsById(id);
-    }
+  public boolean tagExists(final Long id) {
+    return tagRepository.existsById(id);
+  }
 
-    public List<Tag> findTagsByName(String name) {
-        return tagRepository.findByNameContainingIgnoreCase(name);
-    }
+  public List<Tag> findTagsByName(final String name) {
+    return tagRepository.findByNameContainingIgnoreCase(name);
+  }
+
 }

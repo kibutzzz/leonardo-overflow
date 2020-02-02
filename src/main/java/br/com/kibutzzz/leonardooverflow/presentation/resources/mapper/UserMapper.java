@@ -12,13 +12,13 @@ import java.util.List;
 @Mapper(config = BaseMapperConfig.class)
 public interface UserMapper {
 
-    @Mapping(target = "roles", ignore = true)
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "authorities", ignore = true)
-    User fromRequest(CreateUserRequest request);
+  @Mapping(target = "roles", ignore = true)
+  @Mapping(target = "id", ignore = true)
+  @Mapping(target = "authorities", ignore = true)
+  User fromRequest(CreateUserRequest request);
 
-    List<SimplifiedUserResponse> toResponse(List<User> listUsers);
+  List<SimplifiedUserResponse> toResponse(List<User> listUsers);
 
-    SimplifiedUserResponse toSimplifiedResponse(User user);
+  SimplifiedUserResponse toSimplifiedResponse(User user);
 
 }

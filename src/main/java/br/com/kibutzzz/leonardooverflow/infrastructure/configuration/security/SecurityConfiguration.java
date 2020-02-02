@@ -20,56 +20,55 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    private final AuthenticationService authenticationService;
+  private final AuthenticationService authenticationService;
 
-    private final TokenService tokenService;
+  private final TokenService tokenService;
 
-    private final UserService userService;
+  private final UserService userService;
 
-    //authentication configuration
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(authenticationService).passwordEncoder(new BCryptPasswordEncoder());
-    }
+  //authentication configuration
+  @Override
+  protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
+    auth.userDetailsService(authenticationService).passwordEncoder(new BCryptPasswordEncoder());
+  }
 
-    //authorization configuration
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
+  //authorization configuration
+  @Override
+  protected void configure(final HttpSecurity http) throws Exception {
 
-        http
-                .csrf().disable()
-                .authorizeRequests()
-                //public endpoints
-                .antMatchers(HttpMethod.POST, "/auth").permitAll()
-                .antMatchers(HttpMethod.GET, "/question").permitAll()
-                .antMatchers(HttpMethod.GET, "/question/*").permitAll()
-                .antMatchers(HttpMethod.GET, "/question/search/*").permitAll()
-                .antMatchers(HttpMethod.GET, "/question/user/*").permitAll()
-                .antMatchers(HttpMethod.POST, "/user").permitAll()
-                .antMatchers(HttpMethod.GET, "/user/validate/*").permitAll()
-                .antMatchers(HttpMethod.GET, "/tag").permitAll()
-                .antMatchers(HttpMethod.GET, "/tag/*").permitAll()
+    http
+      .csrf().disable()
+      .authorizeRequests()
+      //public endpoints
+      .antMatchers(HttpMethod.POST, "/auth").permitAll()
+      .antMatchers(HttpMethod.GET, "/question").permitAll()
+      .antMatchers(HttpMethod.GET, "/question/*").permitAll()
+      .antMatchers(HttpMethod.GET, "/question/search/*").permitAll()
+      .antMatchers(HttpMethod.GET, "/question/user/*").permitAll()
+      .antMatchers(HttpMethod.POST, "/user").permitAll()
+      .antMatchers(HttpMethod.GET, "/user/validate/*").permitAll()
+      .antMatchers(HttpMethod.GET, "/tag").permitAll()
+      .antMatchers(HttpMethod.GET, "/tag/*").permitAll()
 
 
-                //other requests must be authenticated
-                .anyRequest().authenticated()
-                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().addFilterBefore(new TokenAuthenticationFilter(tokenService, userService),
-                UsernamePasswordAuthenticationFilter.class);
+      //other requests must be authenticated
+      .anyRequest().authenticated()
+      .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+      .and().addFilterBefore(new TokenAuthenticationFilter(tokenService, userService),
+      UsernamePasswordAuthenticationFilter.class);
 
-    }
+  }
 
-    @Bean
-    @Override
-    protected AuthenticationManager authenticationManager() throws Exception {
-        return super.authenticationManager();
-    }
+  //static resources configuration
+  @Override
+  public void configure(final WebSecurity web) {
 
-    //static resources configuration
-    @Override
-    public void configure(WebSecurity web) {
+  }
 
-    }
-
+  @Bean
+  @Override
+  protected AuthenticationManager authenticationManager() throws Exception {
+    return super.authenticationManager();
+  }
 
 }

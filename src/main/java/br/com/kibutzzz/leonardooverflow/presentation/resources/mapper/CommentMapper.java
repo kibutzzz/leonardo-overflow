@@ -12,13 +12,13 @@ import java.util.List;
 @Mapper(config = BaseMapperConfig.class, uses = {VoteMapper.class})
 public interface CommentMapper {
 
-    @Mapping(target = "voteCount", source = "votes", qualifiedByName = {"VoteMapper", "countVoteTotals"})
-    CommentResponse toResponse(Comment comment);
+  @Mapping(target = "voteCount", source = "votes", qualifiedByName = {"VoteMapper", "countVoteTotals"})
+  CommentResponse toResponse(Comment comment);
 
-    List<CommentResponse> toResponse(List<Comment> comments);
+  List<CommentResponse> toResponse(List<Comment> comments);
 
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "user", ignore = true)
-    @Mapping(target = "votes", ignore = true)
-    Comment fromRequest(CreateCommentRequest commentRequest);
+  @Mapping(target = "id", ignore = true)
+  @Mapping(target = "user", ignore = true)
+  @Mapping(target = "votes", ignore = true)
+  Comment fromRequest(CreateCommentRequest commentRequest);
 }

@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 @Builder
 public class SimplifiedUserResponse {
 
-    private Long id;
+  private Long id;
 
-    private String username;
+  private String username;
 
 }

@@ -1,6 +1,5 @@
 package br.com.kibutzzz.leonardooverflow.presentation.resources.response;
 
-import br.com.kibutzzz.leonardooverflow.infrastructure.persistence.model.Tag;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,22 +14,22 @@ import java.util.List;
 @AllArgsConstructor
 public class SpecificQuestionResponse {
 
-    private Long id;
+  private Long id;
 
-    private String title;
+  private String title;
 
-    private String description;
+  private String description;
 
-    private List<AnswerResponse> answers;
+  private List<AnswerResponse> answers;
 
-    private List<CommentResponse> comments;
+  private List<CommentResponse> comments;
 
-    private List<SimplifiedTagResponse> tags;
+  private List<SimplifiedTagResponse> tags;
 
-    private Long voteCount;
+  private Long voteCount;
 
-    private LocalDateTime creationDate;
+  private LocalDateTime creationDate;
 
-    private LocalDateTime updateDate;
+  private LocalDateTime updateDate;
 
 }

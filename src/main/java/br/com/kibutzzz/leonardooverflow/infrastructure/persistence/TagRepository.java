@@ -7,8 +7,8 @@ import java.util.List;
 
 public interface TagRepository extends JpaRepository<Tag, Long> {
 
-    Boolean existsByName(String name);
+  Boolean existsByName(String name);
 
-    List<Tag> findByNameContainingIgnoreCase(String name);
+  List<Tag> findByNameContainingIgnoreCase(String name);
 
 }

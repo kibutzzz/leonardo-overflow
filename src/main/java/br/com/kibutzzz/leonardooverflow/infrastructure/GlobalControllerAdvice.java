@@ -17,38 +17,38 @@ import java.util.List;
 @RequiredArgsConstructor
 public class GlobalControllerAdvice {
 
-    private final MessageSource messageSource;
+  private final MessageSource messageSource;
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiErrorResponse> handleGenericException(Exception ex) {
-        ApiErrorResponse errorResponse = new ApiErrorResponse(ex.getMessage());
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
-    }
+  @ExceptionHandler(Exception.class)
+  public ResponseEntity<ApiErrorResponse> handleGenericException(final Exception ex) {
+    final ApiErrorResponse errorResponse = new ApiErrorResponse(ex.getMessage());
+    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+  }
 
-    @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<ApiErrorResponse> handleInvalidFormatException(HttpMessageNotReadableException ex) {
+  @ExceptionHandler(HttpMessageNotReadableException.class)
+  public ResponseEntity<ApiErrorResponse> handleInvalidFormatException(final HttpMessageNotReadableException ex) {
 
-        return ResponseEntity.badRequest().body(new ApiErrorResponse(ex.toString()));
-    }
+    return ResponseEntity.badRequest().body(new ApiErrorResponse(ex.toString()));
+  }
 
-    @ExceptionHandler(ApiException.class)
-    public ResponseEntity<ApiErrorResponse> handleApiException(ApiException ex) {
-        return ex.toResponseEntity();
-    }
+  @ExceptionHandler(ApiException.class)
+  public ResponseEntity<ApiErrorResponse> handleApiException(final ApiException ex) {
+    return ex.toResponseEntity();
+  }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<List<ApiErrorResponse>> handleApiException(MethodArgumentNotValidException ex) {
-        List<ApiErrorResponse> errors = new ArrayList<>();
+  @ExceptionHandler(MethodArgumentNotValidException.class)
+  public ResponseEntity<List<ApiErrorResponse>> handleApiException(final MethodArgumentNotValidException ex) {
+    final List<ApiErrorResponse> errors = new ArrayList<>();
 
-        ex.getBindingResult().getFieldErrors().forEach(error -> {
-                    String message = messageSource.getMessage(error.getCode(), error.getArguments(),
-                            error.getDefaultMessage(), LocaleContextHolder.getLocale());
+    ex.getBindingResult().getFieldErrors().forEach(error -> {
+        final String message = messageSource.getMessage(error.getCode(), error.getArguments(),
+          error.getDefaultMessage(), LocaleContextHolder.getLocale());
 
-                    errors.add(new ApiErrorResponse(message, error.getField()));
-                }
-        );
+        errors.add(new ApiErrorResponse(message, error.getField()));
+      }
+    );
 
-        return ResponseEntity.badRequest().body(errors);
-    }
+    return ResponseEntity.badRequest().body(errors);
+  }
 
 }

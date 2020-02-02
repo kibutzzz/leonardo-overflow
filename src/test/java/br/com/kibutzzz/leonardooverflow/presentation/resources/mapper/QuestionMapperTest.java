@@ -11,34 +11,34 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 @NoArgsConstructor
 @SpringBootTest(
-        webEnvironment = SpringBootTest.WebEnvironment.NONE,
-        classes = {QuestionMapperImpl.class, VoteMapperImpl.class, CommentMapperImpl.class, AnswerMapperImpl.class,
-                UserMapperImpl.class, TagMapperImpl.class}
+  webEnvironment = SpringBootTest.WebEnvironment.NONE,
+  classes = {QuestionMapperImpl.class, VoteMapperImpl.class, CommentMapperImpl.class, AnswerMapperImpl.class,
+    UserMapperImpl.class, TagMapperImpl.class}
 )
 class QuestionMapperTest {
 
-    private static final CreateQuestionRequest NULL_CREATE_QUESTION_REQUEST = null;
-    private static final Question NULL_QUESTION = null;
+  private static final CreateQuestionRequest NULL_CREATE_QUESTION_REQUEST = null;
+  private static final Question NULL_QUESTION = null;
 
-    @Autowired
-    private QuestionMapper questionMapper;
+  @Autowired
+  private QuestionMapper questionMapper;
 
-    @Test
-    public void test_fromRequest_withNullArgument_shouldReturnNull() {
+  @Test
+  public void test_fromRequest_withNullArgument_shouldReturnNull() {
 
-        assertNull(questionMapper.fromRequest(NULL_CREATE_QUESTION_REQUEST));
-    }
+    assertNull(questionMapper.fromRequest(NULL_CREATE_QUESTION_REQUEST));
+  }
 
-    @Test
-    public void test_toResponse_withNullArgument_shouldReturnNull() {
+  @Test
+  public void test_toResponse_withNullArgument_shouldReturnNull() {
 
-        assertNull(questionMapper.toResponse(NULL_QUESTION));
-    }
+    assertNull(questionMapper.toResponse(NULL_QUESTION));
+  }
 
-    @Test
-    public void test_toSpecificQuestionResponse_withNullArgument_shouldReturnNull() {
+  @Test
+  public void test_toSpecificQuestionResponse_withNullArgument_shouldReturnNull() {
 
-        assertNull(questionMapper.toSpecificQuestionResponse(NULL_QUESTION));
-    }
+    assertNull(questionMapper.toSpecificQuestionResponse(NULL_QUESTION));
+  }
 
 }

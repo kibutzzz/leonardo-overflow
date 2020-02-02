@@ -13,29 +13,29 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CreateQuestionValidator implements Validator {
 
-    private final TagService tagService;
+  private final TagService tagService;
 
-    @Override
-    public boolean supports(Class<?> clazz) {
-        return CreateQuestionRequest.class.isAssignableFrom(clazz);
+  @Override
+  public boolean supports(final Class<?> clazz) {
+    return CreateQuestionRequest.class.isAssignableFrom(clazz);
+  }
+
+  @Override
+  public void validate(final Object target, final Errors errors) {
+
+    if (errors.hasErrors()) {
+      return;
     }
 
-    @Override
-    public void validate(Object target, Errors errors) {
+    final CreateQuestionRequest request = (CreateQuestionRequest) target;
 
-        if (errors.hasErrors()) {
-            return;
-        }
+    final List<Long> ids = request.getTagsIds();
+    for (int i = 0; i < ids.size(); i++) {
 
-        CreateQuestionRequest request = (CreateQuestionRequest) target;
-
-        List<Long> ids = request.getTagsIds();
-        for (int i = 0; i < ids.size(); i++) {
-
-            if (!tagService.tagExists(ids.get(i))) {
-                errors.rejectValue("tagsIds[" + i + "]", "validation.question.create.tagDoesNotExist");
-            }
-        }
-
+      if (!tagService.tagExists(ids.get(i))) {
+        errors.rejectValue("tagsIds[" + i + "]", "validation.question.create.tagDoesNotExist");
+      }
     }
+
+  }
 }

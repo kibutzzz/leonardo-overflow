@@ -7,12 +7,12 @@ import br.com.kibutzzz.leonardooverflow.presentation.resources.request.VoteReque
 public class VoteRequestStubber {
 
 
-    public static VoteRequest generateValidRequest() {
-        return VoteRequest.builder()
-                .id(1L)
-                .type(VoteType.UP)
-                .entity(VoteEntity.QUESTION)
-                .build();
-    }
+  public static VoteRequest generateValidRequest() {
+    return VoteRequest.builder()
+      .id(1L)
+      .type(VoteType.UP)
+      .entity(VoteEntity.QUESTION)
+      .build();
+  }
 }
 

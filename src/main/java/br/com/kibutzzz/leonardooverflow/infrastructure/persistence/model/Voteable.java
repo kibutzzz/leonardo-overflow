@@ -5,5 +5,5 @@ import java.util.List;
 
 public interface Voteable {
 
-    @NotNull List<Vote> getVotes();
+  @NotNull List<Vote> getVotes();
 }

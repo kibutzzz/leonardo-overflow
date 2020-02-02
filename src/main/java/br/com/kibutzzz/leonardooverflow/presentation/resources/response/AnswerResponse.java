@@ -13,14 +13,14 @@ import java.util.List;
 @Builder
 public class AnswerResponse {
 
-    private Long id;
+  private Long id;
 
-    private String description;
+  private String description;
 
-    private Integer voteCount;
+  private Integer voteCount;
 
-    private List<CommentResponse> comments;
+  private List<CommentResponse> comments;
 
-    private SimplifiedUserResponse user;
+  private SimplifiedUserResponse user;
 
 }

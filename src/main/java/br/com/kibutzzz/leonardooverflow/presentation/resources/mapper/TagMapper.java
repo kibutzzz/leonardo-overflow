@@ -13,14 +13,14 @@ import java.util.List;
 @Mapper(config = BaseMapperConfig.class)
 public interface TagMapper {
 
-    @Mapping(target = "id", ignore = true)
-    Tag fromRequest(CreateTagRequest tagRequest);
+  @Mapping(target = "id", ignore = true)
+  Tag fromRequest(CreateTagRequest tagRequest);
 
-    TagResponse toResponse(Tag tag);
+  TagResponse toResponse(Tag tag);
 
-    List<TagResponse> toResponse(List<Tag> tags);
+  List<TagResponse> toResponse(List<Tag> tags);
 
-    SimplifiedTagResponse toSimplifiedResponse(Tag tag);
+  SimplifiedTagResponse toSimplifiedResponse(Tag tag);
 
-    List<SimplifiedTagResponse> toSimplifiedResponse(List<Tag> tag);
+  List<SimplifiedTagResponse> toSimplifiedResponse(List<Tag> tag);
 }

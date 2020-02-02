@@ -5,7 +5,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity
 @Data
@@ -14,14 +19,14 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class Vote {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @Enumerated
-    private VoteType type;
+  @Enumerated
+  private VoteType type;
 
-    @ManyToOne
-    private User user;
+  @ManyToOne
+  private User user;
 
 }

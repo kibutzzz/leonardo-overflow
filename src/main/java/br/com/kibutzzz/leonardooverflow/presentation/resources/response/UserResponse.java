@@ -8,11 +8,11 @@ import java.util.Set;
 @Data
 public class UserResponse {
 
-    private Long id;
+  private Long id;
 
-    private String username;
+  private String username;
 
-    private Set<Role> roles;
+  private Set<Role> roles;
 
 
 }

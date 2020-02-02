@@ -1,0 +1,103 @@
+checkstyle {
+    configFile = new File(rootDir, 'checkstyle.xml')
+    toolVersion = '8.25'
+    ignoreFailures = false
+    maxWarnings = 0
+}
+
+tasks.withType(Checkstyle).each { checkstyleTask ->
+    checkstyleTask.doLast {
+        reports {
+            html.enabled true
+            html.destination file("${buildDir}/reports/checkstyle/html")
+            xml.enabled false
+        }
+        reports.all { report ->
+            def outputFile = report.destination
+            if (outputFile.exists() && outputFile.text.contains('<error ')) {
+                throw new GradleException("There were checkstyle warnings! For more info check $outputFile")
+            }
+        }
+    }
+}
+
+jacoco {
+    toolVersion = '0.8.4'
+}
+
+task codeCoverageReport(type: JacocoReport) {
+    // Gather execution data from all subprojects
+    // (change this if you e.g. want to calculate unit test/integration test coverage separately)
+    executionData fileTree(project.rootDir.absolutePath).include("**/build/jacoco/*.exec")
+}
+
+
+jacocoTestReport {
+    reports {
+        csv.enabled false
+        html.enabled true
+        html.destination file("${buildDir}/reports/jacoco/html")
+        xml.enabled true
+        xml.destination file("${buildDir}/reports/jacoco/xml")
+    }
+}
+
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            element = 'CLASS'
+            excludes = [
+                    "${projectPackage}.Application",
+                    "${project.group}.infrastructure.configuration.*",
+            ]
+
+            limit {
+                counter = 'LINE'
+                value = 'COVEREDRATIO'
+                minimum = 0.0 // 0.8
+            }
+        }
+
+        rule {
+            element = 'METHOD'
+            excludes = [
+                    "${projectPackage}.Application.main(java.lang.String[])",
+                    "${project.group}.infrastructure.configuration.*",
+            ]
+
+            limit {
+                counter = 'COMPLEXITY'
+                value = 'COVEREDRATIO'
+                minimum = 0.0  // 0.8
+            }
+        }
+    }
+}
+
+codeCoverageReport.dependsOn {
+    subprojects*.test
+}
+
+test.finalizedBy jacocoTestReport
+check.dependsOn jacocoTestCoverageVerification
+
+pmd {
+    ruleSetFiles = files("${project.rootDir}/pmd.xml")
+    ruleSets = []
+    consoleOutput = false
+}
+
+
+task runTests(type: GradleBuild) {
+    group 'continuous delivery'
+    description = 'Tests'
+    setTasks(['clean', 'test'])
+}
+
+task codeQuality(type: GradleBuild) {
+    group 'continuous delivery'
+    description = 'Code quality verification'
+    setTasks(['jacocoTestCoverageVerification', 'pmdMain', 'pmdTest', 'checkstyleMain', 'checkstyleTest'])
+}
+

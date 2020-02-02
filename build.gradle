@@ -1,8 +1,22 @@
+
+
+def teamPropsFile(propsFile) {
+	def teamPropsDir = file('team-props')
+	return new File(teamPropsDir, propsFile)
+}
+
 plugins {
 	id 'org.springframework.boot' version '2.2.2.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
 	id 'java'
+	id 'jacoco'
+	id 'checkstyle'
+	id 'pmd'
 }
+
+ext.projectPackage = "${project.group}.${project.name.replace('-', '')}"
+apply from: teamPropsFile('code-quality.gradle')
+
 
 group = 'br.com.kibutzzz'
 version = '0.0.1-SNAPSHOT'

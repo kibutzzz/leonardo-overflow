@@ -23,6 +23,6 @@ also the `codeQuality` task, which runs `pmdMain`, `pmdTest`, `checkstyleMain`,
 `checkstyleTest` and `jacocoTestCoverageVerification`.
 
 
-####TODO
+#### TODO
 
  - [ ] Add git hooks to check if the project is building before commit 

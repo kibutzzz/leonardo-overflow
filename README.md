@@ -1,6 +1,11 @@
 # Leonardo Overflow
 Attempt to recreate a simplified version of the StackOverflow Backend
 
+## Database
+
+Before running the application, run the database container
+
+- run `docker run -d -p 3306:3306 kibutzzz/leonardo_overflow_database`
 
 ## Run
 
@@ -8,6 +13,13 @@ Steps to run the application using the terminal
 
 - Navigate to the root directory 
 - Run `./gradlew bootRun` 
+
+**OR**
+
+Using the JAR:
+
+- `./gradlew assemble` to build the JAR
+- `java -jar build/libs/leonardo-overflow-0.0.1-SNAPSHOT.jar`
 
 ## Test
 

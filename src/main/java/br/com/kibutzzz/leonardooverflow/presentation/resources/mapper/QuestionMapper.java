@@ -30,10 +30,12 @@ public interface QuestionMapper {
   QuestionResponse toResponse(Question question);
 
   @Mapping(target = "voteCount", source = "votes", qualifiedByName = {"VoteMapper", "countVoteTotals"})
+  @Mapping(target = "answers", qualifiedByName = {"AnswerMapper", "toResponse"})
   SpecificQuestionResponse toSpecificQuestionResponse(Question question);
 
   List<SimplifiedQuestionResponse> toSimplifiedQuestionResponse(List<Question> question);
 
+  @Mapping(target = "answerCount", source = "answers", qualifiedByName = {"AnswerMapper", "countAnswers"})
   @Mapping(target = "voteCount", source = "votes", qualifiedByName = {"VoteMapper", "countVoteTotals"})
   SimplifiedQuestionResponse toSimplifiedQuestionResponse(Question question);
 

@@ -15,6 +15,8 @@ public class SimplifiedQuestionResponse {
 
   private Long voteCount;
 
+  private Long answerCount;
+
   private SimplifiedUserResponse user;
 
   private List<SimplifiedTagResponse> tags;

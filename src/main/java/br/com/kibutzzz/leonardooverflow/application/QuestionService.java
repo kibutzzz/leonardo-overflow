@@ -110,4 +110,8 @@ public class QuestionService {
     questionRepository.save(question);
   }
 
+  public List<Question> searchQuestionsByTag(final String tag) {
+    return questionRepository.findByTagsName(tag);
+  }
+
 }

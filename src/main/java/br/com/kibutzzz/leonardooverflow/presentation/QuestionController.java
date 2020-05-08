@@ -74,4 +74,9 @@ public class QuestionController {
                                          @AuthenticationPrincipal final User user) {
     return questionMapper.toResponse(questionService.updateQuestion(questionRequest, questionId, user));
   }
+
+  @GetMapping("/tag/{tag}")
+  public List<SimplifiedQuestionResponse> searchQuestionsByTags(@PathVariable final String tag) {
+    return questionMapper.toSimplifiedQuestionResponse(questionService.searchQuestionsByTag(tag));
+  }
 }
